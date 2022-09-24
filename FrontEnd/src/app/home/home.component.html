@@ -1,0 +1,214 @@
+<head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+</head>
+
+<div class="container" style="overflow-x: hidden">
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-light border-right sticky-top" id="sidebar-wrapper">
+      <div class="sidebar-heading"></div>
+      <div class="list-group list-group-flush">
+        <a href class="list-group-item list-group-item-action bg-light"
+           (click)="redirect_to_home()">Home</a>
+        <a routerLink="personal-data" routerLinkActive="active" class="list-group-item list-group-item-action bg-light"
+           role="button">Profile</a>
+        <a routerLink="network" routerLinkActive="active"
+           class="list-group-item list-group-item-action bg-light pe-auto" role="button">Network</a>
+        <a href class="list-group-item list-group-item-action bg-light" (click)="logOut()">Log Out</a>
+        <br>
+        <div class="list-group-item bg-light user-email">Logged in as: {{email}}</div>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper" *ngIf="router.url === '/home'">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light navig">
+
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/home" routerLinkActive="active" role="button">Homepage</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="network" routerLinkActive="active" role="button">Network</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="adverts" routerLinkActive="active" role="button">Adverts</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="chatrooms" routerLinkActive="active" role="button">Chat</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="notifications" routerLinkActive="active" role="button">Notifications</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="personal-data" role="button">Personal Data</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="settings" routerLinkActive="active" role="button">Settings</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="container-fluid">
+        <div class="upload">
+          <form [formGroup]="uploadForm" (ngSubmit)="submitPost()">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Write your article</span>
+              </div>
+              <textarea class="form-control-text" name="text" formControlName="text"
+                        placeholder="Write here..."></textarea>
+              <div class="input-group mb-3">
+                <section class="section-preview">
+                  <div class="input-group my-3">
+                    <div class="custom-file">
+                      <input type="file" name="file" class="custom-file-input" id="inputGroupFile01"
+                             aria-describedby="inputGroupFileAddon01" accept="image/*, audio/*, video/*"
+                             (change)="onFileChanged($event)">
+                      <label class="custom-file-label" for="inputGroupFile01"></label>
+                    </div>
+                  </div>
+                </section>
+                <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04"
+                        [disabled]="uploadForm.invalid">Upload
+                </button>
+              </div>
+              <!--                    <button class="btn btn-outline-secondary" type="file" id="inputGroupFileAddon03">Button</button>-->
+            </div>
+          </form>
+        </div>
+        <ng-container *ngFor="let post of posts; let i = index">
+          <div class="post">
+            <div class="first-line">
+              <span class="name">
+                {{post?.post_surname}} {{post?.post_name}}
+              </span>
+              <span class="date">
+              {{post?.date | date:'medium'}}
+               </span>
+            </div>
+            <div class="text">
+              {{post?.text}}
+              <div class="frame" *ngIf="!isObjectEmpty(post_images[i])">
+                <img class="image" [src]="'data:image/jpeg;base64,' + post_images[i].content">
+              </div>
+              <div class="frame" *ngIf="!isObjectEmpty(post_videos[i])">
+                  <video class="video" [src]="'data:video/mp4;base64,' + post_videos[i].content" controls>
+                  </video>
+              </div>
+              <div class="frame" *ngIf="!isObjectEmpty(post_audios[i])">
+                <audio controls>
+                  <source [src]="'data:audio/mp3;base64,' + post_audios[i].content">
+                </audio>
+              </div>
+            </div>
+            <span class="like">
+              <button class="like__btn" (click)="likePost(post)">
+               <span id="icon"><i class="far fa-thumbs-up" *ngIf="!isLiked[i]"></i>
+               <i class="fas fa-thumbs-up" *ngIf="isLiked[i]"></i></span>
+               <span id="count">{{likes[i]}}</span> Like
+              </button>
+            </span>
+            <span class="comment-button">
+              <button (click)="comment(post)">Comment</button>
+              <div class="comment-section" *ngIf="isPressed[i] == true">
+                <form [formGroup]="commentForm" (ngSubmit)="submitComment(post.id)">
+                  <div class="comment-area">
+                    <input class="rounded" rows="1" placeholder="Leave a comment" formControlName="commentt">
+                  </div>
+                  <div class="comment-area">
+                    <button type="submit" class="btn btn-success" [disabled]="commentForm.invalid">Post Comment</button>
+                  </div>
+                </form>
+                <ng-container class="comment" *ngFor="let comment of post_comments[i]">
+                  <span class="name-comment">
+                    {{comment?.surname}} {{comment?.name}}
+                  </span>
+                  <div class="text-comment">
+                    {{comment?.commentt}}
+                  </div>
+                </ng-container>
+              </div>
+            </span>
+          </div>
+        </ng-container>
+
+        <br>
+        <br>
+
+        <div *ngIf="recommended_posts; else noRecommendedPosts">
+          <b style="margin-left: 650px">Recommended posts</b>
+          <br>
+          <ng-container *ngFor="let recommended_post of recommended_posts; let i = index">
+            <div class="post">
+              <div class="first-line">
+              <span class="name">
+                {{recommended_post?.post_surname}} {{recommended_post?.post_name}}
+              </span>
+                <span class="date">
+              {{recommended_post?.date | date:'medium'}}
+               </span>
+              </div>
+              <div class="text">
+                {{recommended_post?.text}}
+                <div class="frame" *ngIf="!isObjectEmpty(recommended_post_images[i])">
+                  <img class="image" [src]="'data:image/jpeg;base64,' + recommended_post_images[i].content">
+                </div>
+                <div class="frame" *ngIf="!isObjectEmpty(recommended_post_videos[i])">
+                  <video class="video" [src]="'data:video/mp4;base64,' + recommended_post_videos[i].content" controls>
+                  </video>
+                </div>
+                <div class="frame" *ngIf="!isObjectEmpty(recommended_post_audios[i])">
+                  <audio controls>
+                    <source [src]="'data:audio/mp3;base64,' + recommended_post_audios[i].content">
+                  </audio>
+                </div>
+              </div>
+              <span class="like">
+              <button class="like__btn" (click)="likeRecommendedPost(recommended_post)">
+               <span id="icon"><i class="far fa-thumbs-up" *ngIf="!recommended_isLiked[i]"></i>
+               <i class="fas fa-thumbs-up" *ngIf="recommended_isLiked[i]"></i></span>
+               <span id="count">{{recommended_likes[i]}}</span> Like
+              </button>
+            </span>
+              <span class="comment-button">
+              <button (click)="comment_recommended_posts(recommended_post)">Comment</button>
+              <div class="comment-section" *ngIf="recommended_isPressed[i] == true">
+                <form [formGroup]="commentForm" (ngSubmit)="submitComment_recommended_posts(recommended_post.id)">
+                  <div class="comment-area">
+                    <input class="rounded" rows="2" placeholder="Leave a comment" formControlName="commentt">
+                  </div>
+                  <div class="comment-area">
+                    <button type="submit" class="btn btn-success" [disabled]="commentForm.invalid">Post Comment</button>
+                  </div>
+                </form>
+                <ng-container class="comment" *ngFor="let recommended_comment of recommended_post_comments[i]">
+                  <span class="name-comment">
+                    {{recommended_comment?.surname}} {{recommended_comment?.name}}
+                  </span>
+                  <div class="text-comment">
+                    {{recommended_comment?.commentt}}
+                  </div>
+                </ng-container>
+              </div>
+            </span>
+            </div>
+          </ng-container>
+        </div>
+        <br>
+
+        <ng-template #noRecommendedPosts>
+          <b style="margin-left: 650px">There are no recommended posts</b>
+          <br>
+        </ng-template>
+
+      </div>
+    </div>
+  </div>
+  <!-- /#wrapper -->
+
+</div>
+<router-outlet></router-outlet>

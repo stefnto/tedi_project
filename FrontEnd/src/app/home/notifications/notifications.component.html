@@ -1,0 +1,65 @@
+<div *ngIf="router.url === '/home/notifications'">
+  <ng-container class="container" style="--bs-columns: 3" *ngIf="requests?.length > 0; else noRequests">
+    <div class="template-header">
+      <b>Friend Requests</b>
+    </div>
+    <div *ngFor="let email of requests; let i=index">
+      <div class="row">
+        <div class="col-12 column">
+          <div class="grid_text">
+            <b> {{email}} has sent you a friend request</b>
+            <input type="button" (click)="acceptRequest(email)" value="Accept">
+
+            <input type="button" (click)="declineRequest(email)" value="Decline">
+
+            <input type="button" (click)="showProfile(email)" value="Show profile">
+            <br>
+            <div class="alert alert-success" *ngIf="req === i && requestAccepted">
+              {{requestAccepted}}
+            </div>
+            <div class="alert alert-success" *ngIf="req === i && requestDeclined">
+              {{requestDeclined}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noRequests>
+    <div class="template-header">
+      <b>You have no friend requests pending!</b>
+    </div>
+  </ng-template>
+
+  <br>
+  <br>
+  <br>
+
+  <ng-container class="container" style="--bs-columns: 3" *ngIf="notifications?.length > 0; else noNotifications">
+    <div class="template-header">
+      <b>Post notifications</b>
+    </div>
+    <div *ngFor="let notification of notifications; let j=index">
+      <div class="row">
+        <div class="col-12 column">
+          <div class="grid_text">
+            <b> {{notification.message}} </b>
+            <input type="button" (click)="dismissNotification(notification)" value="Dismiss">
+            <div class="alert alert-success" *ngIf="notif === j && notificationDismissed">
+              {{notificationDismissed}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noNotifications>
+    <br>
+    <div class="template-header">
+      <b>You have no new notifications!</b>
+    </div>
+  </ng-template>
+
+</div>

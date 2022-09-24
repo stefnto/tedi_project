@@ -1,0 +1,66 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="card">
+
+  <!-- Row start -->
+  <div class="row gutters">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+      <div>
+        <!-- Row start -->
+        <div class="row">
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3">
+            <h5 style="text-align: center">Messages</h5>
+            <div class="users-container">
+              <ul class="users" *ngFor="let info of memberInfo">
+                <li class="person" (click)="getChatMessages(member_email, info.email, (info.name + ' ' + info.surname))">
+                  <div class="user">
+                    <p class="name-time">
+                      <span class="name">{{info.name}}  {{info.surname}}</span>
+                    </p>
+                  </div>
+                </li>
+              </ul>
+              <br>
+            </div>
+          </div>
+          <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-9" *ngIf="chatRoomMessages">
+            <div class="selected-user">
+              <span>To: <span class="name">{{interlocutorName}}</span></span>
+            </div>
+            <div class="chat-container container-pos">
+              <ul class="chat-box chatContainerScroll" *ngFor="let message of chatRoomMessages">
+                <li class="chat-left" *ngIf="message.sender === interlocutorEmail">
+                  <div class="chat-avatar">
+                    <div class="chat-name">{{interlocutorName}}</div>
+                  </div>
+                  <div class="chat-text"> {{message.text}} </div>
+                  <div class="chat-hour"> {{message.dateSent | date:'medium'}}
+                  </div>
+                </li>
+                <li class="chat-right" *ngIf="message.sender === member_email">
+                  <div class="chat-hour"> {{message.dateSent | date:'medium'}}
+                  </div>
+                  <div class="chat-text"> {{message.text}} </div>
+                </li>
+              </ul>
+            </div>
+            <form [formGroup]="messageForm" (ngSubmit)="sendMessage(this.member_email, this.interlocutorEmail)">
+              <div class="form-group mt-3 mb-0">
+                <input class="form-control" rows="3" formControlName="text" placeholder="Type your message here...">
+                <button class="btn btn-outline-secondary" type="submit" [disabled]="messageForm.invalid">Send</button>
+              </div>
+            </form>
+            <button class="btn btn-outline-secondary" type="submit"
+                    (click)="getChatMessages(this.member_email, this.interlocutorEmail, this.interlocutorName)">
+              Refresh chat
+            </button>
+          </div>
+        </div>
+        <!-- Row end -->
+      </div>
+
+    </div>
+
+  </div>
+  <!-- Row end -->
+
+</div>

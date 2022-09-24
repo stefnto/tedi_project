@@ -1,0 +1,45 @@
+
+<h1 style="text-align: center">MY ADS</h1>
+
+<ng-container *ngIf="ads.length > 0 else noAds">
+  <div class="ads" *ngFor="let ad of ads; let i = index">
+    <div class="ad">
+      <div class="first-line">
+        <span class="date">
+                {{ad?.date | date:'medium'}}
+        </span>
+      </div>
+      <div class="text">
+        Advert text:   {{ad?.text}} <br><br>
+        Prerequisites: {{ad?.prerequisite_skills}}
+      </div>
+    </div>
+    <div class="line" (click)="switch(ad)">
+      <span class="like">
+        <button type="button" class="btn btn-info btn-lg">Check who has applied</button>
+      </span>
+      <form *ngIf="isPressed[i] == true">
+        <table class="table table-bordered table-striped">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Surname</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+          </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let member of members[i]">
+                <td>{{ member.surname }}</td>
+                <td>{{ member.name }}</td>
+                <td>{{ member.email }}</td>
+              </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #noAds>
+  <b>You don't have any ads at the moment</b>
+</ng-template>

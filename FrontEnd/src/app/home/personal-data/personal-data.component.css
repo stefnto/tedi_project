@@ -1,0 +1,71 @@
+.input-group-text{
+  width: 40%;
+  margin-top: 50px;
+  margin-left: 100px;
+}
+
+.form-control-text{
+  width: 60%;
+  height: 20%;
+}
+
+.frame{
+  margin-left: 600px;
+  margin-top: 100px;
+}
+/*.input-group-text{*/
+/*  width: 20%;*/
+/*  margin-top: 50px;*/
+/*}*/
+
+.public{
+  margin-left: 216px;
+}
+
+.private{
+  margin-left: 20px;
+}
+
+.alert-success{
+  margin-top: 20px;
+  width: 60%;
+}
+
+.alert-info{
+  margin-top: 20px;
+  width: 60%;
+}
+
+.alert-warning{
+  margin-top: 20px;
+  width: 60%;
+}
+
+.email{
+  font-size: 20px;
+  margin-left: 450px;
+}
+
+.CV{
+  margin-left: 450px;
+  margin-top: 50px;
+  font-size: 18px;
+}
+
+.experience{
+  margin-left: 450px;
+  margin-top: 50px;
+  font-size: 18px;
+}
+
+.education{
+  margin-left: 450px;
+  margin-top: 50px;
+  font-size: 18px;
+}
+
+.skills{
+  margin-left: 450px;
+  margin-top: 50px;
+  font-size: 18px;
+}

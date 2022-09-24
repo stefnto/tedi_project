@@ -1,0 +1,180 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap");
+
+#wrapper {
+  /*overflow-x: hidden;*/
+  /*margin-left: 40px;*/
+  position:relative;
+  padding:0;
+  margin:0;
+
+  top:0;
+  left:0;
+
+  width: 100%;
+  height: 100%;
+  background:rgba(255,255,255,0.5);
+}
+
+#sidebar-wrapper {
+  min-height: 100vh;
+  position:fixed;
+  top:0;
+  left:0;
+}
+
+
+
+#sidebar-wrapper .sidebar-heading {
+  padding: 1.5rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+  width: 20rem;
+}
+
+#sidebar-wrapper .user-email {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+}
+
+#page-content-wrapper {
+  min-width: 100vw;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.navig {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  margin-left: 320px;
+}
+
+body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+  margin-left: 0;
+}
+
+.form-control-text{
+  width: 40%;
+}
+
+.input-group{
+  margin-top: 40px;
+}
+
+.upload{
+  margin-left: 400px;
+  margin-top: 120px;
+}
+
+.input-group-file{
+  width: 100%;
+}
+
+.form-control{
+  width: 10%;
+}
+
+#inputGroupFileAddon04{
+  margin-left: 20px;
+}
+
+.post{
+  /*text-align: center;*/
+  margin-left: 300px;
+  margin-top: 20px;
+  width: 50%;
+}
+
+.name{
+  margin-right: 400px;
+  width: 80px;
+  /*border: 1px solid black;*/
+}
+
+.text{
+  /*margin-top: 10px;*/
+  /*text-align: center;*/
+  /*margin-right: 100px;*/
+  border: 1px solid black;
+  padding-top: 30px;
+  padding-right: 70px;
+  padding-bottom: 30px;
+  padding-left: 70px;
+}
+
+.first-line{
+  width: 50em;
+
+  margin-left: 100px;
+}
+
+.like{
+  margin-left: 100px;
+  width: 30%;
+}
+
+.like__btn {
+  padding: 10px 15px;
+  background: #0080ff;
+  font-size: 18px;
+  font-family: "Open Sans", sans-serif;
+  border-radius: 5px;
+  color: #e8efff;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+#icon{
+  margin-right: 10px;
+}
+
+.comment-button{
+  margin-left: 160px;
+}
+
+.comment-area{
+  margin-left: 300px;
+}
+
+.rounded{
+  margin-top: 20px;
+  width: 50%;
+}
+
+.comment{
+  margin-top: 20px;
+
+}
+
+.name-comment{
+  margin-top: 200px;
+  margin-left: 100px;
+}
+
+.text-comment{
+  border: 2px solid gray;
+  border-radius: 12px;
+  padding: 10px;
+  width: 80%;
+  margin-left: 100px;
+}
+
+.frame{
+  margin-top: 30px;
+}
+
+.image{
+  width: 600px;
+  height: auto;
+}
+
+.video{
+  width: 600px;
+  height: auto;
+}

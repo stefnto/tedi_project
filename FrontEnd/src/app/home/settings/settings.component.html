@@ -1,0 +1,30 @@
+<div class="container">
+  <header class="jumbotron">
+    <h3 style="text-align: center">
+      Settings
+    </h3>
+  </header>
+
+  <form>
+    <div class="form-group align-self-auto w-25 mb-4" style="margin-left: 400px">
+      <label > Change your email</label><br>
+      <input [formControl]="newEmail" rows="1"><br>
+      <button type="submit" (click)="updateEmail()" [disabled]="newEmail.invalid" value="Submit changes"> Change email </button>
+      <div *ngIf="emailAlreadyExist" class="alert alert-danger"> This email is already being used</div>
+      <div class="alert alert-success" *ngIf="emailUpdated">Your email was successfully updated</div>
+    </div>
+  </form>
+
+
+  <br>
+
+  <form>
+    <div class="form-group align-self-auto w-25 mb-4" style="margin-left: 400px">
+      <label > Change your password</label><br>
+      <input type="password" [formControl]="newPassword" rows="1"><br>
+      <button type="submit" (click)="updatePassword()" [disabled]="newPassword.invalid" value="Submit changes"> Change password </button>
+      <div class="alert alert-success" *ngIf="passwordUpdated">Your password was successfully updated</div>
+      <div class="alert alert-danger" *ngIf="!passwordUpdated && passwordUpdateError">You are trying to change another user's password, access denied</div>
+    </div>
+  </form>
+</div>

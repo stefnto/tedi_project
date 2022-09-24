@@ -1,0 +1,58 @@
+.own_ads {
+  margin-left: 320px;
+}
+
+.post_button{
+  margin-top: 100px;
+  margin-left: 850px;
+}
+
+.upload{
+  margin-top: 50px;
+  margin-left: 650px;
+}
+
+.form-control-text{
+  width: 40%;
+  height: 50px;
+}
+
+.btn-outline-secondary{
+  margin-top: 20px;
+  margin-left: 120px;
+}
+
+.ad{
+  margin-left: 400px;
+  margin-top: 40px;
+  width: 60%;
+}
+
+.name{
+  margin-right: 400px;
+  width: 80px;
+  /*border: 1px solid black;*/
+}
+
+.text{
+  /*margin-top: 10px;*/
+  /*text-align: center;*/
+  /*margin-right: 100px;*/
+  border: 1px solid black;
+  padding: 30px 70px;
+}
+
+.first-line{
+  width: 50em;
+
+  margin-left: 100px;
+  /*}*/}
+
+
+.msg{
+  margin-left: 30px;
+}
+
+div.template-header{
+  text-align: center;
+}

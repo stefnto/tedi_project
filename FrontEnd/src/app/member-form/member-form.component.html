@@ -1,0 +1,108 @@
+<link rel="stylesheet" href="member-form.component.css">
+
+<div class="card my-5">
+  <div class="card-body">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" style="border: 2px solid #ccc">
+
+        <h1>Sign Up</h1>
+        <p>Please fill in this form to register</p>
+        <hr>
+
+        <div class="form-group">
+          <label for="surname"><b>Surname</b></label>
+            <input formControlName="surname"
+                   id="surname"
+                   type="text"
+                   class="form-control"
+                   placeholder="Enter your surname">
+            <div *ngIf="surname?.touched && surname?.invalid">
+              <div *ngIf="surname?.errors?.required" class="text-danger">Surname is required</div>
+              <div *ngIf="surname?.errors?.pattern" class="text-danger">Invalid Surname</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+          <label for="name"><b>Name</b></label>
+            <input formControlName="name"
+                   id="name"
+                   type="text"
+                   class="form-control"
+                   placeholder="Enter your name">
+            <div *ngIf="name?.touched && name?.invalid">
+              <div *ngIf="name?.errors?.required" class="text-danger">Name is required</div>
+              <div *ngIf="name?.errors?.pattern" class="text-danger">Invalid Name</div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="email"><b>Email</b></label>
+            <input formControlName="email"
+                   id="email"
+                   type="email"
+                   class="form-control"
+                   placeholder="Enter your email address">
+            <span *ngIf="emailAlreadyExist" class="text-danger"> This email is already being used</span>
+            <div *ngIf="email?.touched && email?.invalid">
+              <div *ngIf="email?.errors?.required" class="text-danger">Email is required</div>
+              <div *ngIf="email?.errors?.email" class="text-danger">Invalid Email</div>
+<!--              <small *ngIf="notification?.errors?.existingEmail" class="help is-danger">Email already exists</small>-->
+            </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="password" class="control-label"><b>Password</b></label>
+          <input formControlName="password"
+                 id="password"
+                 type="password"
+                 class="form-control"
+                 placeholder="Enter your password">
+          <div *ngIf="password?.touched && password?.invalid">
+            <div *ngIf="password?.errors?.required" class="text-danger">Password is required</div>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="password2"><b>Confirm password</b></label>
+          <input formControlName="password2"
+                 id="password2"
+                 type="password"
+                 class="form-control"
+                 placeholder="Enter your password again">
+          <div *ngIf="password2?.touched && password2?.invalid">
+            <div *ngIf="password2?.errors?.required" class="text-danger">Confirm password is required</div>
+          </div>
+          <div *ngIf="password2?.valid && password2?.value != password?.value" class="text-danger">
+            The passwords entered do not match
+          </div>
+      </div>
+
+
+        <div class="form-group">
+          <label for="phone"><b>Phone Number</b></label>
+          <input formControlName="phone"
+                 id="phone"
+                 type="tel"
+                 class="form-control"
+                 placeholder="Enter your phone number">
+          <div *ngIf="phone?.touched && phone?.invalid">
+            <div *ngIf="phone?.errors?.required" class="text-danger">Phone is required</div>
+            <div *ngIf="phone?.errors?.pattern" class="text-danger">Invalid Phone</div>
+            <div *ngIf="phone?.errors?.minlength" class="text-danger">Phone must be 10 characters </div>
+<!--            <small *ngIf="phone.errors.maxlength" class="text-danger">Phone must contain a maximum of 13 characters</small>-->
+          </div>
+        </div>
+
+        <br>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid || password?.value != password2?.value">Sign Up</button>
+        </div>
+
+      <div class="alert alert-success" *ngIf="isRegistered">
+        Your registration was successful!
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<html>
+<head>
+  <title>LOGIN</title>
+</head>
+<body>
+<h1></h1>
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+  <div class="alert alert-danger" *ngIf="loginFail"> {{msg}}</div>
+  Email:<input formControlName="email" type="email" name="email"><br><br>
+  Password:<input formControlName="password" type="password" name="password"><br><br>
+  <input type="submit" value="Submit">
+</form>

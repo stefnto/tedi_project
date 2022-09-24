@@ -1,0 +1,178 @@
+<h1 style="text-align: center">PERSONAL DATA</h1>
+<br>
+
+<div class="container">
+  <div class="email" *ngIf="!isObjectEmpty(email)">
+    <strong>Email: </strong>
+    {{email}}
+  </div>
+
+
+  <div class="experience" *ngIf="!isObjectEmpty(experience)">
+    <strong>Experience: </strong>
+    {{experience.text}}
+    <br>
+    <br>
+    <button class="btn btn-outline-secondary" (click)="editExperience()">Edit experience</button>
+
+    <div *ngIf="editExp">
+      <div>
+        <form [formGroup]="experienceForm">
+          <div class="input-group-text">Edit your work experience</div>
+          <textarea class="form-control-text" name="text" formControlName="experience"
+                    placeholder="Write here..."></textarea>
+          <div>
+            <button class="btn btn-outline-secondary" (click)="onSubmitExperience()"
+                    [disabled]="experienceForm.invalid">Submit
+            </button>
+            <span class="public">
+        <button class="btn btn-outline-secondary" (click)="makePublicExperience()">Set public</button>
+      </span>
+            <span class="private">
+        <button class="btn btn-outline-secondary" (click)="makePrivateExperience()">Set private</button>
+      </span>
+            <div class="alert alert-success" role="alert" *ngIf="isUpdated1">Your information about your work experience
+              was successfully updated
+            </div>
+            <div class="alert alert-info" role="alert" *ngIf="isPublic1">Your information about your work experience is
+              public
+            </div>
+            <div class="alert alert-info" role="alert" *ngIf="isPrivate1">Your information about your work experience is
+              private
+            </div>
+            <div class="alert alert-warning" role="alert" *ngIf="isEmpty1">First fill out your information about your
+              work experience
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="education" *ngIf="!isObjectEmpty(education)">
+    <strong>Education: </strong>
+    {{education.text}}
+    <br>
+    <br>
+    <button class="btn btn-outline-secondary" (click)="editEducation()">Edit education</button>
+    <div *ngIf="editEduc">
+      <div>
+        <form [formGroup]="educationForm">
+          <div class="input-group-text">Edit your information about your education</div>
+          <textarea class="form-control-text" name="text" formControlName="education"
+                    placeholder="Write here..."></textarea>
+          <div>
+            <button class="btn btn-outline-secondary" (click)="onSubmitEducation()" [disabled]="educationForm.invalid">
+              Submit
+            </button>
+            <span class="public">
+              <button class="btn btn-outline-secondary" (click)="makePublicEducation()">Set public</button>
+            </span>
+            <span class="private">
+              <button class="btn btn-outline-secondary" (click)="makePrivateEducation()">Set private</button>
+            </span>
+            <div class="alert alert-success" role="alert" *ngIf="isUpdated2">Your information about your education was
+              successfully updated
+            </div>
+            <div class="alert alert-info" role="alert" *ngIf="isPublic2">Your information about your education is
+              public
+            </div>
+            <div class="alert alert-info" role="alert" *ngIf="isPrivate2">Your information about your education is
+              private
+            </div>
+            <div class="alert alert-warning" role="alert" *ngIf="isEmpty2">First fill out your information about your
+              education
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="skills" *ngIf="!isObjectEmpty(skills)">
+    <strong>Skills: </strong>
+    {{skills.text}}
+    <br>
+    <br>
+    <button class="btn btn-outline-secondary" (click)="editSkills()">Edit skills</button>
+
+    <div *ngIf="editSkill">
+      <div>
+        <form [formGroup]="skillsForm">
+          <div class="input-group-text">Edit your skills</div>
+          <textarea class="form-control-text" name="text" formControlName="skills"
+                    placeholder="Write here..."></textarea>
+          <div>
+            <button class="btn btn-outline-secondary" (click)="onSubmitSkills()" [disabled]="skillsForm.invalid">
+              Submit
+            </button>
+            <span class="public">
+        <button class="btn btn-outline-secondary" (click)="makePublicSkills()">Set public</button>
+      </span>
+            <span class="private">
+        <button class="btn btn-outline-secondary" (click)="makePrivateSkills()">Set private</button>
+      </span>
+            <div class="alert alert-success" role="alert" *ngIf="isUpdated3">Your information about your skills was
+              successfully updated
+            </div>
+            <div class="alert alert-info" role="alert" *ngIf="isPublic3">Your information about your skills is public
+            </div>
+            <div class="alert alert-info" role="alert" *ngIf="isPrivate3">Your information about your skills is
+              private
+            </div>
+            <div class="alert alert-warning" role="alert" *ngIf="isEmpty3">First fill out your skills</div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="CV" *ngIf="!isObjectEmpty(resume)">
+    <strong>CV: </strong>
+    {{resume.text}}
+    <br>
+    <br>
+    <button class="btn btn-outline-secondary" (click)="editResume()">Edit resume</button>
+
+    <div *ngIf="editResum">
+      <div>
+        <form [formGroup]="resumeForm">
+          <div class="input-group-text">Edit your resume</div>
+          <textarea class="form-control-text" name="text" formControlName="resume"
+                    placeholder="Write here..."></textarea>
+          <div>
+            <button class="btn btn-outline-secondary" (click)="onSubmitResume()" [disabled]="resumeForm.invalid">
+              Submit
+            </button>
+            <span class="public">
+        <button class="btn btn-outline-secondary" (click)="makePublicResume()">Set public</button>
+      </span>
+            <span class="private">
+        <button class="btn btn-outline-secondary" (click)="makePrivateResume()">Set private</button>
+      </span>
+            <div class="alert alert-success" role="alert" *ngIf="isUpdated4">Your information about your resume was
+              successfully updated
+            </div>
+            <div class="alert alert-info" role="alert" *ngIf="isPublic4">Your information about your resume is public
+            </div>
+            <div class="alert alert-info" role="alert" *ngIf="isPrivate4">Your information about your resume is
+              private
+            </div>
+            <div class="alert alert-warning" role="alert" *ngIf="isEmpty4">First fill out your resume</div>
+          </div>
+        </form>
+        <br>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+

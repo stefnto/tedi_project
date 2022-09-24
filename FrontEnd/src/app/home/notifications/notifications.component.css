@@ -1,0 +1,24 @@
+.grid_text {
+  text-align: center;
+}
+
+.column {
+  float: left;
+  padding: 50px;
+  text-align: center;
+  font-size: 25px;
+  background-color: lightblue;
+}
+
+.container {
+  margin: auto;
+  display: grid;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+div.template-header{
+  text-align: center;
+}

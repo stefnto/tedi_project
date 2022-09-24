@@ -1,0 +1,88 @@
+<div class="container" *ngIf="member_exists; else notExists">
+  <h1 style="text-align: center">Profile</h1>
+
+  <div *ngIf="areFriends; else notFriends">
+    <div class="name">
+      <strong>{{searchedMember.surname}} {{searchedMember.name}}</strong>
+    </div>
+
+    <div class="email">
+      <strong>Email:</strong>
+      {{ member_page_email }}
+    </div>
+    <br>
+    <div class="isFriend">
+      You are friends with {{searchedMember.name}}
+    </div>
+
+    <div class="CV" *ngIf="!isObjectEmpty(memberCV)">
+      <strong>CV: </strong>
+      {{memberCV.text}}
+    </div>
+
+    <div class="experience" *ngIf="!isObjectEmpty(experience)">
+      <strong>Experience: </strong>
+      {{experience.text}}
+    </div>
+
+    <div class="education" *ngIf="!isObjectEmpty(education)">
+      <strong>Education: </strong>
+      {{education.text}}
+    </div>
+
+    <div class="skills" *ngIf="!isObjectEmpty(skills)">
+      <strong>Skills: </strong>
+      {{skills.text}}
+    </div>
+
+  </div>
+
+  <ng-template #notFriends>
+    <div *ngIf="!areFriends">
+      <div class="name">
+        <strong>{{searchedMember.surname}} {{searchedMember.name}}</strong>
+      </div>
+
+      <div class="email">
+        <strong>Email:</strong>
+        {{ member_page_email }}
+      </div>
+      <div class="isNotFriend">
+
+        You are not friends with {{member_page_email}}<br>
+        Send friend request?
+        <input type="button" (click)="sendFriendRequest()" value="Add friend">
+        <div class="alert alert-success" *ngIf="requestSent">
+          {{requestSent}}
+        </div>
+      </div>
+
+      <div class="CV" *ngIf="!isObjectEmpty(memberCV) && memberCV.isPublic">
+        <strong>CV: </strong>
+        {{memberCV.text}}
+      </div>
+
+      <div class="experience" *ngIf="!isObjectEmpty(experience) && experience.isPublic">
+        <strong>Experience: </strong>
+        {{experience.text}}
+      </div>
+
+      <div class="education" *ngIf="!isObjectEmpty(education) && education.isPublic">
+        <strong>Education: </strong>
+        {{education.text}}
+      </div>
+
+      <div class="skills" *ngIf="!isObjectEmpty(skills) && skills.isPublic">
+        <strong>Skills: </strong>
+        {{skills.text}}
+      </div>
+
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #notExists>
+  <div>
+    <h2 style="text-align: center">Searched member doesn't exist</h2>
+  </div>
+</ng-template>

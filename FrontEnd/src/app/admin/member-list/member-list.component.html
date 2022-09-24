@@ -1,0 +1,37 @@
+<div class="card my-5">
+  <div class="card-body">
+    <form>
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">Surname</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Export as JSON
+            <input type="button" (click)="exportJSON()" value="Export as JSON">
+          </th>
+          <th scope="col">Export as XML
+            <input type="button" (click)="exportXML()" value="Export as XML">
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of members">
+            <td>{{ member.surname }}</td>
+            <td><a routerLink="['', {{member.email}}]">
+              {{ member.name }} </a></td>
+            <td><a href="mailto:{{ member.email }}">{{ member.email }}</a></td>
+            <td>{{ member.phone }}</td>
+            <td>
+              <input type="checkbox" name="{{member.email}}_json" id="{{member.email}}_json">
+            </td>
+            <td>
+              <input type="checkbox" name="{{member.email}}_xml" id="{{member.email}}_xml">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>

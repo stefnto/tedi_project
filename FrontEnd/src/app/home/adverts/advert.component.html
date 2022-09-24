@@ -1,0 +1,115 @@
+<div *ngIf="router.url === '/home/adverts'">
+
+  <h1 style="text-align: center">ADVERTS </h1>
+
+  <div class="own_ads">
+    <button type="button" class="btn btn-secondary btn-lg" routerLink="my-ads">Check your ads here</button>
+  </div>
+
+  <div class="post_button">
+    <button type="button" class="btn btn-secondary btn-lg" (click)="show()">Post your ad now</button>
+  </div>
+
+  <br>
+  <br>
+
+  <div class="upload" *ngIf="isPressed == true">
+    <form [formGroup]="adForm" (ngSubmit)="submitAd()">
+      <div class="input-group">
+          <div class="input-group-text">Write your ad</div>
+        <textarea class="form-control-text" name="text" formControlName="text"
+                  placeholder="Write here..."></textarea>
+      </div>
+      <div class="input-group">
+        <div class="input-group-prepend">
+        </div>
+        <textarea class="form-control-text" style="margin-left: 121px" name="prerequisite_skills" formControlName="prerequisite_skills"
+                  placeholder="Write prerequisite skills here..."></textarea>
+      </div>
+
+      <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04"
+              [disabled]="adForm.invalid">Upload
+      </button>
+    </form>
+  </div>
+
+  <ng-container class="page" *ngIf="friendAds.length > 0; else noFriendAds">
+    <div class="template-header">
+      <b>Friend adverts</b>
+    </div>
+    <div *ngFor="let ad of friendAds; let i = index">
+      <div class="ad">
+        <div class="first-line">
+                <span class="name">
+                  {{ad?.surname}} {{ad?.name}}
+                </span>
+          <span class="date">
+                {{ad?.date | date:'medium'}}
+        </span>
+        </div>
+        <div class="text">
+          Advert text:   {{ad?.text}} <br><br>
+          Prerequisites: {{ad?.prerequisite_skills}}
+        </div>
+        <div class="line">
+        <span class="like">
+          <button type="button" class="btn btn-info btn-lg" (click)="applyFriendAd(ad)">Apply here</button>
+        </span>
+          <span class="msg" *ngIf="isAppliedFriendsAds[i] == true">
+          You have applied for this job, click again to unapply
+        </span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noFriendAds>
+    <div class="template-header">
+      <b>No friend has published an advert</b>
+    </div>
+  </ng-template>
+
+  <br>
+  <br>
+  <br>
+
+  <ng-container class="page" *ngIf="recommendedAds.length > 0; else noRecommendedAds">
+    <div class="template-header">
+      <b>Recommended adverts</b>
+    </div>
+    <div *ngFor="let ad of recommendedAds; let i = index">
+      <div class="ad">
+        <div class="first-line">
+                <span class="name">
+                  {{ad?.surname}} {{ad?.name}}
+                </span>
+          <span class="date">
+                {{ad?.date | date:'medium'}}
+        </span>
+        </div>
+        <div class="text">
+          Advert text:   {{ad?.text}} <br><br>
+          Prerequisites: {{ad?.prerequisite_skills}}
+        </div>
+        <div class="line">
+        <span class="like">
+          <button type="button" class="btn btn-info btn-lg" (click)="applyRecommendedAd(ad)">Apply here</button>
+        </span>
+          <span class="msg" *ngIf="isAppliedRecommendedAds[i] == true">
+          You have applied for this job, click again to unapply
+        </span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noRecommendedAds>
+    <br>
+    <div class="template-header">
+      <b>You have none recommended adverts</b>
+    </div>
+  </ng-template>
+
+</div>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="name">
+    <strong>{{searchedMember.surname}} {{searchedMember.name}}</strong>
+  </div>
+
+  <div class="email">
+    <strong>Email:</strong>
+    {{ member_page_email }}
+  </div>
+  <br>
+
+  <div class="CV" *ngIf="!isObjectEmpty(memberCV)">
+    <strong>CV: </strong>
+    {{memberCV.text}}
+  </div>
+
+  <div class="experience" *ngIf="!isObjectEmpty(experience)">
+    <strong>Experience: </strong>
+    {{experience.text}}
+  </div>
+
+  <div class="education" *ngIf="!isObjectEmpty(education)">
+    <strong>Education: </strong>
+    {{education.text}}
+  </div>
+
+  <div class="skills" *ngIf="!isObjectEmpty(skills)">
+    <strong>Skills: </strong>
+    {{skills.text}}
+  </div>
+
+</div>

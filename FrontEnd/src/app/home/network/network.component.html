@@ -1,0 +1,42 @@
+<div
+  class="network">
+
+  <form [formGroup]="searchForm" (ngSubmit)="search()"
+        class="search-box" style="margin:auto;max-width:300px">
+    <input type="text" id="search" formControlName="search" name="search" placeholder="Search..">
+    <button type="submit"><i class="fa fa-search"></i></button>
+  </form>
+
+  <div *ngIf="router.url === '/home/network'">
+    <ng-container class="container" style="--bs-columns: 3"
+                  *ngFor="let info of memberInfo; let i=index; let even=even; let odd=odd">
+      <div class="row">
+        <div class="col-6 column">
+          <div class="grid_text" *ngIf="even">
+            <a routerLink="['',{{info.email}}]">
+              <b> {{info.name}} </b>
+              <b> {{info.surname}} | </b>
+              <b> {{info.email}}  </b>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-6 column">
+          <div class="grid_text" *ngIf="even && memberInfo[i+1]">
+            <a routerLink="['',{{memberInfo[i+1]?.email}}]">
+              <b> {{memberInfo[i + 1]?.name}} </b>
+              <b> {{memberInfo[i + 1]?.surname}} | </b>
+              <b> {{memberInfo[i + 1]?.email}}  </b>
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+
+</div>
+
+<router-outlet></router-outlet>
+
+

@@ -1,0 +1,16 @@
+
+<!--<app-welcome *ngIf="router.url != '/register' &&-->
+<!--                    router.url != '/admin' &&-->
+<!--                    router.url != '/members' &&-->
+<!--                    router.url != '/home' &&-->
+<!--                    router.url != '/welcome' &&-->
+<!--                    router.url != '/home/members' &&-->
+<!--                    router.url != '/not-found' &&-->
+<!--                    router.url != '/home/profile'-->
+<!--"></app-welcome>-->
+
+<app-welcome *ngIf = "router.url === '/login' "></app-welcome>
+
+
+
+<router-outlet></router-outlet>

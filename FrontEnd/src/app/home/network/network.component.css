@@ -1,0 +1,62 @@
+.network {
+  margin-left: 320px;
+  background-color: lightblue;
+  overflow-x: hidden;
+}
+
+.grid_text {
+  text-align: center;
+}
+
+.column {
+  float: left;
+  padding: 50px;
+  text-align: center;
+  font-size: 25px;
+  background-color: lightblue;
+}
+
+
+
+.container {
+  margin: auto;
+  display: grid;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Style the search field */
+form.search-box input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.search-box button {
+  float: left;
+  width: 20%;
+  padding: 4px;
+  background: #2196F3;
+  color: white;
+  font-size: 25px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+form.search-box button:hover {
+  background: #0b7dda;
+}
+
+/* Clear floats */
+form.search-box::after {
+  content: "";
+  clear: both;
+  display: table;
+}

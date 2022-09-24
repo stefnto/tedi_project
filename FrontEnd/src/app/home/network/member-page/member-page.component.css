@@ -1,0 +1,45 @@
+.name{
+  font-size: 30px;
+  margin-top: 40px;
+  margin-left: 450px;
+}
+
+.email{
+  font-size: 20px;
+  margin-left: 450px;
+}
+
+.isFriend{
+  font-size: 20px;
+  margin-left: 450px;
+}
+
+.isNotFriend{
+  font-size: 20px;
+  margin-left: 450px;
+}
+
+
+.CV{
+  margin-left: 450px;
+  margin-top: 50px;
+  font-size: 18px;
+}
+
+.experience{
+  margin-left: 450px;
+  margin-top: 50px;
+  font-size: 18px;
+}
+
+.education{
+  margin-left: 450px;
+  margin-top: 50px;
+  font-size: 18px;
+}
+
+.skills{
+  margin-left: 450px;
+  margin-top: 50px;
+  font-size: 18px;
+}

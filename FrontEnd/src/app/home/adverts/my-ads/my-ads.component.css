@@ -1,0 +1,41 @@
+.ad{
+  margin-left: 400px;
+  margin-top: 60px;
+  width: 60%;
+}
+
+.text{
+  /*margin-top: 10px;*/
+  /*text-align: center;*/
+  /*margin-right: 100px;*/
+  border: 1px solid black;
+  padding-top: 30px;
+  padding-right: 70px;
+  padding-bottom: 30px;
+  padding-left: 70px;
+}
+
+.first-line{
+  width: 50em;
+
+  margin-left: 100px;
+  /*}*/}
+
+.msg{
+  margin-left: 30px;
+}
+
+.date{
+  margin-left: 400px;
+}
+
+.btn{
+  margin-left: 400px;
+}
+
+.table{
+  margin-top: 20px;
+  width: 60%;
+  margin-left: 400px;
+}
+
