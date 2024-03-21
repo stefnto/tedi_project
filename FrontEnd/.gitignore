@@ -14,8 +14,8 @@
 chrome-profiler-events*.json
 
 # IDEs and editors
-../.idea
-../BackEnd/.idea
+../.idea/
+../BackEnd/.idea/
 .project
 .classpath
 .c9/
