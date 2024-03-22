@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from "@angular/forms";
+import { UntypedFormControl, Validators } from "@angular/forms";
 import { MemberService, TokenStorageService } from "../../services";
 import { filter, switchMap, tap } from "rxjs/operators";
 
@@ -12,13 +12,13 @@ export class SettingsComponent implements OnInit {
 
   public emailAlreadyExist: boolean = false
   emailUpdated = false;
-  newEmail = new FormControl('', [
+  newEmail = new UntypedFormControl('', [
     Validators.email, Validators.required
   ])
 
   passwordUpdated = false;
   passwordUpdateError !: string
-  newPassword = new FormControl('', [Validators.required])
+  newPassword = new UntypedFormControl('', [Validators.required])
 
   constructor(private memberService: MemberService,
               private tokenStorage: TokenStorageService) { }

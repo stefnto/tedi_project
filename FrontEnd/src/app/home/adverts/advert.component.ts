@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {AdvertService} from "../../services/advert.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 import {MemberService, TokenStorageService} from "../../services";
 import {Advert} from "../../models/advert";
 import {MemberInfo} from "../../models";
@@ -15,7 +15,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class AdvertComponent implements OnInit {
   myDate!: Date
   email!: any
-  adForm!: FormGroup
+  adForm!: UntypedFormGroup
   isPressed: boolean = false
 
   friendAds_ids!: number[]
@@ -31,16 +31,16 @@ export class AdvertComponent implements OnInit {
   constructor(public router: Router,
               private adService: AdvertService,
               private memberService: MemberService,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private token: TokenStorageService) {
 
     let formControls = {
-      text: new FormControl('',
+      text: new UntypedFormControl('',
         [Validators.required]),
-      date: new FormControl(),
-      name: new FormControl(),
-      surname: new FormControl(),
-      prerequisite_skills: new FormControl('',
+      date: new UntypedFormControl(),
+      name: new UntypedFormControl(),
+      surname: new UntypedFormControl(),
+      prerequisite_skills: new UntypedFormControl('',
         [Validators.required])
     }
 

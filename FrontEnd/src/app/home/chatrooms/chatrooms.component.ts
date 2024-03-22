@@ -1,6 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { ChatService } from "../../services/chat.service";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { FriendService } from "../../services/friend.service";
 import { MemberInfo } from "../../models";
 import { HttpErrorResponse } from "@angular/common/http";
@@ -22,18 +22,18 @@ export class ChatroomsComponent implements OnInit{
   public chatRoomMessages!: MessageDTO[]
   public interlocutorEmail!: string
   public interlocutorName!: string
-  public messageForm!: FormGroup
+  public messageForm!: UntypedFormGroup
 
 
 
   constructor(public router: Router,
               private chatService: ChatService,
               private friendService: FriendService,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private tokenStorage: TokenStorageService){
 
     let formControl = {
-      text: new FormControl('',[Validators.required])
+      text: new UntypedFormControl('',[Validators.required])
     }
 
     this.messageForm = this.formBuilder.group(formControl)

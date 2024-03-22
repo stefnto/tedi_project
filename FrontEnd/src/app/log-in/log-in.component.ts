@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TokenStorageService } from "../services";
 import { AuthenticationService } from "../services";
 
@@ -12,23 +12,23 @@ import { AuthenticationService } from "../services";
 })
 export class LogInComponent implements OnInit {
 
-  loginForm: FormGroup
+  loginForm: UntypedFormGroup
   public msg: string = ""
   public isLoggedIn: boolean = false
   public loginFail: boolean = false
   public errMessage: string = ""
   public roles: string[] = []
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private route: ActivatedRoute,
               private router: Router,
               private authService: AuthenticationService,
               private tokenStorage: TokenStorageService) {
 
     let formControls = {
-      email: new FormControl('',
+      email: new UntypedFormControl('',
         [Validators.required, Validators.email]),
-      password: new FormControl('',
+      password: new UntypedFormControl('',
         [Validators.required])
     }
 

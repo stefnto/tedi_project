@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MemberService, TokenStorageService } from "../../services";
 import { ActivatedRoute, Router } from "@angular/router";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { Education } from "../../models/education";
 import { Member } from "../../models";
 import { Experience } from "../../models/experience";
@@ -19,10 +19,10 @@ export class PersonalDataComponent implements OnInit {
   member!: Member
 
 
-  educationForm!: FormGroup
-  experienceForm!: FormGroup
-  skillsForm!: FormGroup
-  resumeForm!: FormGroup
+  educationForm!: UntypedFormGroup
+  experienceForm!: UntypedFormGroup
+  skillsForm!: UntypedFormGroup
+  resumeForm!: UntypedFormGroup
 
   //variables that show the appropriate messages
   isUpdated1: boolean = false
@@ -62,25 +62,25 @@ export class PersonalDataComponent implements OnInit {
               private memberService: MemberService,
               public router: Router,
               private route: ActivatedRoute,
-              private formBuilder: FormBuilder) {
+              private formBuilder: UntypedFormBuilder) {
 
     let formControls1 = {
-      experience: new FormControl('',
+      experience: new UntypedFormControl('',
         [Validators.required]),
     }
 
     let formControls2 = {
-      education: new FormControl('',
+      education: new UntypedFormControl('',
         [Validators.required])
     }
 
     let formControls3 = {
-      skills: new FormControl('',
+      skills: new UntypedFormControl('',
         [Validators.required])
     }
 
     let formControls4 = {
-      resume: new FormControl('',
+      resume: new UntypedFormControl('',
         [Validators.required])
     }
 

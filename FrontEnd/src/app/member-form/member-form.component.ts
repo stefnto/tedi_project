@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MemberService, TokenStorageService } from '../services';
 import { Member } from '../models';
-import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormBuilder, Validators, UntypedFormControl } from "@angular/forms";
 import {filter, switchMap, tap} from "rxjs/operators";
 
 @Component({
@@ -11,7 +11,7 @@ import {filter, switchMap, tap} from "rxjs/operators";
   styleUrls: ['./member-form.component.css']
 })
 export class MemberFormComponent implements OnInit {
-  registerForm: FormGroup
+  registerForm: UntypedFormGroup
   public emailAlreadyExist: boolean = false
   public isRegistered: boolean = false
   public registerFail: boolean = false
@@ -21,29 +21,29 @@ export class MemberFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private memberService: MemberService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private tokenStorage: TokenStorageService) {
 
     let formControls = {
-      surname: new FormControl('', [
+      surname: new UntypedFormControl('', [
         Validators.required,
         Validators.pattern("[A-Za-z .'-]+"),
       ]),
-      name: new FormControl('', [
+      name: new UntypedFormControl('', [
         Validators.required,
         Validators.pattern("[A-Za-z .'-]+"),
       ]),
-      email: new FormControl('', [
+      email: new UntypedFormControl('', [
         Validators.required,
         Validators.email,
       ]),
-      password: new FormControl('', [
+      password: new UntypedFormControl('', [
         Validators.required
       ]),
-      password2: new FormControl('', [
+      password2: new UntypedFormControl('', [
         Validators.required,
       ]),
-      phone: new FormControl('', [
+      phone: new UntypedFormControl('', [
         Validators.required,
         Validators.minLength(10),
         Validators.maxLength(10),

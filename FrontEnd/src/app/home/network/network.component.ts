@@ -4,7 +4,7 @@ import { MemberService, TokenStorageService } from "../../services";
 import { MemberInfo } from "../../models";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Router } from "@angular/router";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 
 @Component({
   selector: 'app-network',
@@ -15,7 +15,7 @@ export class NetworkComponent implements OnInit {
 
   member_email!: string
   memberInfo!: MemberInfo[]
-  searchForm!: FormGroup
+  searchForm!: UntypedFormGroup
   email: string = ""
   searchResult: any
 
@@ -23,10 +23,10 @@ export class NetworkComponent implements OnInit {
               private memberService: MemberService,
               private tokenStorage: TokenStorageService,
               public router: Router,
-              private formBuilder: FormBuilder) {
+              private formBuilder: UntypedFormBuilder) {
 
     let formControls = {
-      search: new FormControl()
+      search: new UntypedFormControl()
     }
     this.searchForm = this.formBuilder.group(formControls)
   }
