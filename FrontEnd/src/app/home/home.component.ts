@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MemberService, TokenStorageService} from "../services";
 import {ActivatedRoute, Router} from "@angular/router";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 import {PostService} from "../services/post.service";
 import {Post} from "../models/post";
 import {MemberInfo} from "../models";
@@ -19,8 +19,8 @@ import {Video} from "../models/video";
 })
 export class HomeComponent implements OnInit {
   myDate!: Date
-  uploadForm!: FormGroup
-  commentForm!: FormGroup
+  uploadForm!: UntypedFormGroup
+  commentForm!: UntypedFormGroup
   email!: any
   public member!: MemberInfo                                      // for member information used throughout the component
   public like_helper!: number                                     // index used when liking a post or a recommended post
@@ -72,22 +72,22 @@ export class HomeComponent implements OnInit {
               private memberService: MemberService,
               private friendService: FriendService,
               public postService: PostService,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private commentService: CommentService) {
 
     let formControls1 = {
-      text: new FormControl('',
+      text: new UntypedFormControl('',
         [Validators.required]),
-      date: new FormControl(),
-      post_name: new FormControl(),
-      post_surname: new FormControl()
+      date: new UntypedFormControl(),
+      post_name: new UntypedFormControl(),
+      post_surname: new UntypedFormControl()
     }
 
     let formControls2 = {
-      commentt: new FormControl('',
+      commentt: new UntypedFormControl('',
         [Validators.required]),
-      name: new FormControl(),
-      surname: new FormControl()
+      name: new UntypedFormControl(),
+      surname: new UntypedFormControl()
     }
 
     this.uploadForm = this.formBuilder.group(formControls1)
