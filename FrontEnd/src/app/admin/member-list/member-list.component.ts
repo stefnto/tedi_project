@@ -10,7 +10,8 @@ import * as JsonToXML from "js2xmlparser";
 @Component({
   selector: 'app-member-list',
   templateUrl: './member-list.component.html',
-  styleUrls: ['./member-list.component.css']
+  styleUrls: ['./member-list.component.css'],
+  standalone: false
 })
 export class MemberListComponent implements OnInit {
   public members!: Member[];

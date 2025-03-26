@@ -5,7 +5,8 @@ import { TokenStorageService  } from "../services";
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  styleUrls: ['./welcome.component.css'],
+  standalone: false
 })
 export class WelcomeComponent implements OnInit {
 

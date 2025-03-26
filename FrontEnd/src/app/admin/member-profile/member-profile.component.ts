@@ -12,7 +12,8 @@ import {FriendService} from "../../services/friend.service";
 @Component({
   selector: 'app-member-profile',
   templateUrl: './member-profile.component.html',
-  styleUrls: ['./member-profile.component.css']
+  styleUrls: ['./member-profile.component.css'],
+  standalone: false
 })
 export class MemberProfileComponent implements OnInit, OnDestroy {
 

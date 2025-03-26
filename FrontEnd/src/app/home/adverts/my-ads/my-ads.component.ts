@@ -8,7 +8,8 @@ import {Member} from "../../../models";
 @Component({
   selector: 'app-my-ads',
   templateUrl: './my-ads.component.html',
-  styleUrls: ['./my-ads.component.css']
+  styleUrls: ['./my-ads.component.css'],
+  standalone: false
 })
 export class MyAdsComponent implements OnInit {
 

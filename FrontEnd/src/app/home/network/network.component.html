@@ -23,10 +23,10 @@
 
         <div class="col-6 column">
           <div class="grid_text" *ngIf="even && memberInfo[i+1]">
-            <a routerLink="['',{{memberInfo[i+1]?.email}}]">
-              <b> {{memberInfo[i + 1]?.name}} </b>
-              <b> {{memberInfo[i + 1]?.surname}} | </b>
-              <b> {{memberInfo[i + 1]?.email}}  </b>
+            <a routerLink="['',{{memberInfo[i+1].email}}]">
+              <b> {{memberInfo[i + 1].name}} </b>
+              <b> {{memberInfo[i + 1].surname}} | </b>
+              <b> {{memberInfo[i + 1].email}}  </b>
             </a>
           </div>
         </div>

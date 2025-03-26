@@ -12,7 +12,8 @@ import { Resume } from "../../../models/resume";
 @Component({
   selector: 'app-member-page',
   templateUrl: './member-page.component.html',
-  styleUrls: ['./member-page.component.css']
+  styleUrls: ['./member-page.component.css'],
+  standalone: false
 })
 export class MemberPageComponent implements OnInit, OnDestroy {
   private sub: any

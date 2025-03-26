@@ -10,7 +10,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 @Component({
   selector: 'app-adverts',
   templateUrl: './advert.component.html',
-  styleUrls: ['./advert.component.css']
+  styleUrls: ['./advert.component.css'],
+  standalone: false
 })
 export class AdvertComponent implements OnInit {
   myDate!: Date
