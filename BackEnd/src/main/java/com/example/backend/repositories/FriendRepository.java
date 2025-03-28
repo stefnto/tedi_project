@@ -1,16 +1,9 @@
 package com.example.backend.repositories;
 
 import com.example.backend.models.Friend;
-import com.example.backend.models.Member;
-import com.example.backend.models.MemberInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.SqlResultSetMapping;
 import java.math.BigInteger;
 import java.util.List;
 
