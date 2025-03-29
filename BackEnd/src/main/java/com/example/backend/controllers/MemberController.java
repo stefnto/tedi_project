@@ -44,7 +44,7 @@ class MemberController {
 
     // checkEmailExists returns True if email exists else returns false
     @GetMapping("/members/get-email/{email}")
-    public ResponseEntity<Boolean> checkEmailExists(@PathVariable("email") String email) {
+    public ResponseEntity<Boolean> checkEmailExists(@PathVariable String email) {
         // ok() gives a 200 status message
         // tmp will be null object if member doesn't exist
         MemberInfo tmp = memberService.getSpecifiedMemberInfo(email);
@@ -53,14 +53,14 @@ class MemberController {
 
     // get member specified by email
     @GetMapping("/members/get/{email}")
-    public ResponseEntity<Member> getMemberByEmail(@PathVariable("email") String email) {
+    public ResponseEntity<Member> getMemberByEmail(@PathVariable String email) {
         // ok() gives a 200 status message
         return ResponseEntity.ok().body(memberService.findMemberByEmail(email));
     }
 
     // get memberInfo specified by email
     @GetMapping("/members/getInfo/{email}")
-    public ResponseEntity<MemberInfo> getMemberInfoByEmail(@PathVariable("email") String email) {
+    public ResponseEntity<MemberInfo> getMemberInfoByEmail(@PathVariable String email) {
         return ResponseEntity.ok().body(memberService.getSpecifiedMemberInfo(email));
     }
 

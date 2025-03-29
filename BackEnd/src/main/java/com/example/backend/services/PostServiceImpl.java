@@ -134,7 +134,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post getPostById(Long post_id) {
-        return postRep.getById(post_id);
+        return postRep.getReferenceById(post_id);
     }
 
     @Override

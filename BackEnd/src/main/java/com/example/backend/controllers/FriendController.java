@@ -39,13 +39,13 @@ public class FriendController {
 
     // get list of friends of member
     @GetMapping("/get/{email}")
-    public ResponseEntity<?> getListOfFriends(@PathVariable("email") String email){
+    public ResponseEntity<?> getListOfFriends(@PathVariable String email){
         return ResponseEntity.ok().body(friendService.getFriends(email));
     }
 
     // get unaccepted friend requests sent to member
     @GetMapping("/get/requests/{email}")
-    public ResponseEntity<List<String>> getFriendRequests(@PathVariable("email") String email){
+    public ResponseEntity<List<String>> getFriendRequests(@PathVariable String email){
         return ResponseEntity.ok().body(friendService.getFriendsRequests(email));
     }
 

@@ -221,36 +221,36 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
     // make information public/private methods
 
     @Override
-    public void publicResume(Long id){ resumeRep.getById(id).setIsPublic(true);}
+    public void publicResume(Long id){ resumeRep.getReferenceById(id).setIsPublic(true);}
 
     @Override
-    public void privateResume(Long id){ resumeRep.getById(id).setIsPublic(false);}
+    public void privateResume(Long id){ resumeRep.getReferenceById(id).setIsPublic(false);}
 
     @Override
-    public void publicEduc(Long id){ educationRep.getById(id).setIsPublic(true); }
+    public void publicEduc(Long id){ educationRep.getReferenceById(id).setIsPublic(true); }
 
     @Override
     public void privateEduc(Long id){
-        educationRep.getById(id).setIsPublic(false);
+        educationRep.getReferenceById(id).setIsPublic(false);
     }
 
     @Override
-    public void publicExp(Long id){ experienceRep.getById(id).setIsPublic(true);
+    public void publicExp(Long id){ experienceRep.getReferenceById(id).setIsPublic(true);
     }
 
     @Override
     public void privateExp(Long id){
-        experienceRep.getById(id).setIsPublic(false);
+        experienceRep.getReferenceById(id).setIsPublic(false);
     }
 
     @Override
     public void publicSkills(Long id){
-        skillsRep.getById(id).setIsPublic(true);
+        skillsRep.getReferenceById(id).setIsPublic(true);
     }
 
     @Override
     public void privateSkills(Long id){
-        skillsRep.getById(id).setIsPublic(false);
+        skillsRep.getReferenceById(id).setIsPublic(false);
     }
 
 

@@ -23,17 +23,17 @@ public class AdController {
     }
 
     @GetMapping("/list/{email}")
-    public ResponseEntity<List<Ad>> getFriendsAds(@PathVariable("email") String email) {
+    public ResponseEntity<List<Ad>> getFriendsAds(@PathVariable String email) {
         return ResponseEntity.ok().body(adService.getFriendsAds(email));
     }
 
     @GetMapping("/list/recommended/{email}")
-    public ResponseEntity<List<Ad>> getRecommendedNonFriendAds(@PathVariable("email") String email){
+    public ResponseEntity<List<Ad>> getRecommendedNonFriendAds(@PathVariable String email){
         return ResponseEntity.ok().body(adService.getNonFriendsAds(email));
     }
 
     @GetMapping("/own_list/{email}")
-    public ResponseEntity<List<Ad>> getOwnAds(@PathVariable("email") String email) {
+    public ResponseEntity<List<Ad>> getOwnAds(@PathVariable String email) {
         return ResponseEntity.ok().body(adService.getOwnAds(email));
     }
 

@@ -15,7 +15,7 @@ public class NotificationController {
 
     // returns list of unseen notifications
     @GetMapping("/get/{email}")
-    public ResponseEntity<?> getNotifications(@PathVariable("email") String email){
+    public ResponseEntity<?> getNotifications(@PathVariable String email){
         return ResponseEntity.ok().body(notificationService.getMemberNotifications(email));
     }
 

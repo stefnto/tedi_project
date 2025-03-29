@@ -29,12 +29,12 @@ public class PostController {
     }
 
     @GetMapping("/list/all/{email}")
-    public ResponseEntity<List<PostDTO>> getAllPostsOfMember(@PathVariable("email") String email) {
+    public ResponseEntity<List<PostDTO>> getAllPostsOfMember(@PathVariable String email) {
         return ResponseEntity.ok().body(postService.getAllPosts(email));
     }
 
     @GetMapping("/list/recommended/{email}")
-    public ResponseEntity<List<Post>> getRecommendedNonFriendPosts(@PathVariable("email") String email){
+    public ResponseEntity<List<Post>> getRecommendedNonFriendPosts(@PathVariable String email){
         return ResponseEntity.ok().body(postService.getRecommendedPosts(email));
     }
 
@@ -79,7 +79,7 @@ public class PostController {
     }
 
     @GetMapping( "/get_image/{post_id}")
-    public ResponseEntity<?> getImageFromPost(@PathVariable("post_id") Long post_id){
+    public ResponseEntity<?> getImageFromPost(@PathVariable Long post_id){
         return ResponseEntity.ok().body(imageService.getImage(post_id));
     }
 
