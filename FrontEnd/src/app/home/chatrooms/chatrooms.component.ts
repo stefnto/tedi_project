@@ -11,7 +11,8 @@ import { Router } from "@angular/router";
 @Component({
   selector: 'app-chatrooms',
   templateUrl: './chatrooms.component.html',
-  styleUrls: ['./chatrooms.component.css']
+  styleUrls: ['./chatrooms.component.css'],
+  standalone: false
 })
 export class ChatroomsComponent implements OnInit{
 

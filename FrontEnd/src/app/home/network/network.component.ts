@@ -9,7 +9,8 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from "@angul
 @Component({
   selector: 'app-network',
   templateUrl: './network.component.html',
-  styleUrls: ['./network.component.css']
+  styleUrls: ['./network.component.css'],
+  standalone: false
 })
 export class NetworkComponent implements OnInit {
 

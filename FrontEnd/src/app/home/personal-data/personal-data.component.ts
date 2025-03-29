@@ -11,7 +11,8 @@ import { Resume } from "../../models/resume";
 @Component({
   selector: 'app-personal-data',
   templateUrl: './personal-data.component.html',
-  styleUrls: ['./personal-data.component.css']
+  styleUrls: ['./personal-data.component.css'],
+  standalone: false
 })
 export class PersonalDataComponent implements OnInit {
 
