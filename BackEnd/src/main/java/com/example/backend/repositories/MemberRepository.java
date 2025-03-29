@@ -1,18 +1,16 @@
 package com.example.backend.repositories;
 
 import com.example.backend.models.Member;
-import com.example.backend.models.MemberInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PreDestroy;
+
 import java.util.List;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, String> {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Member findByEmail(String email);
 

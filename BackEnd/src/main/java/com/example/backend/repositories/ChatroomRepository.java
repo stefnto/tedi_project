@@ -1,9 +1,6 @@
 package com.example.backend.repositories;
 
 import com.example.backend.models.Chatroom;
-import com.example.backend.models.Member;
-import com.example.backend.models.MessageDTO;
-import com.example.backend.models.Messages;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
