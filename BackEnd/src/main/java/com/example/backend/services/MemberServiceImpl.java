@@ -1,13 +1,9 @@
 package com.example.backend.services;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.backend.models.*;
-import com.example.backend.repositories.*;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,10 +11,27 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.backend.models.Education;
+import com.example.backend.models.Experience;
+import com.example.backend.models.Member;
+import com.example.backend.models.MemberInfo;
+import com.example.backend.models.Resume;
+import com.example.backend.models.Role;
+import com.example.backend.models.Skills;
+import com.example.backend.repositories.EducationRepository;
+import com.example.backend.repositories.ExperienceRepository;
+import com.example.backend.repositories.MemberRepository;
+import com.example.backend.repositories.ResumeRepository;
+import com.example.backend.repositories.RoleRepository;
+import com.example.backend.repositories.SkillsRepository;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
@@ -77,7 +90,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
     @Override
     public MemberInfo getSpecifiedMemberInfo(String email) {
         List<Object[]> fake_list = memberRep.findSpecificMemberInfo(email);
-        if (fake_list.size() == 0) {
+        if (fake_list.isEmpty()) {
             return null;
         } else {
             Object[] obj = fake_list.get(0);

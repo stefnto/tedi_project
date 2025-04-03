@@ -1,21 +1,29 @@
 package com.example.backend.services;
 
-import com.example.backend.models.*;
-import com.example.backend.repositories.LikeRepository;
-import com.example.backend.repositories.MemberRepository;
-import com.example.backend.repositories.PostRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.backend.models.Audio;
+import com.example.backend.models.Image;
+import com.example.backend.models.Member;
+import com.example.backend.models.MemberInfo;
+import com.example.backend.models.Post;
+import com.example.backend.models.PostDTO;
+import com.example.backend.models.Video;
+import com.example.backend.repositories.LikeRepository;
+import com.example.backend.repositories.MemberRepository;
+import com.example.backend.repositories.PostRepository;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
@@ -66,7 +74,8 @@ public class PostServiceImpl implements PostService {
                     posts.add(new PostDTO(Long.parseLong(object[0].toString()), formatter.parse(object[1].toString()),
                             object[2].toString(), object[3].toString(), object[4].toString()));
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    /* Changed from e.printStackTrace() due to directly printing errors to standard error stream */
+                    log.error("Error adding logged in users' friends' posts", e);
                 }
 
             }
@@ -79,7 +88,7 @@ public class PostServiceImpl implements PostService {
                 posts.add(new PostDTO(Long.parseLong(object[0].toString()), formatter.parse(object[1].toString()),
                         object[2].toString(), object[3].toString(), object[4].toString()));
             } catch (ParseException e) {
-                e.printStackTrace();
+                log.error("Error adding logged in users' posts", e);
             }
 
         }
@@ -94,7 +103,7 @@ public class PostServiceImpl implements PostService {
         List<Object[]> list = postRep.getAllLikedPosts(email);
 
         // if member has no friend there can't be post recommendations
-        if (friends.size() != 0) {
+        if (!friends.isEmpty()) {
 
             List<Post> recommendedPosts = new ArrayList<>();
 
@@ -122,7 +131,7 @@ public class PostServiceImpl implements PostService {
                             post_ids.add(post_id);
                             recommendedPosts.add(post);
                         } catch (ParseException e) {
-                            e.printStackTrace();
+                            log.error("Error adding post to recommended list", e);
                         }
                     }
                 }
