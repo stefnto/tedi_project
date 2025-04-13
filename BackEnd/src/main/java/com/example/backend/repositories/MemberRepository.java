@@ -1,18 +1,20 @@
 package com.example.backend.repositories;
 
-import com.example.backend.models.Member;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-
-import java.util.List;
+import com.example.backend.models.Member;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Member findByEmail(String email);
+
+    boolean existsByEmail(String email);
 
     @Query(value = "SELECT m.id, m.name, m.surname, m.email FROM member m WHERE m.email = :email",
             nativeQuery = true)

@@ -45,7 +45,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 class MemberController {
     private final MemberServiceImpl memberService;
@@ -213,14 +213,21 @@ class MemberController {
     // register new member
     @PostMapping("/register")
     public ResponseEntity<String> registerMember(@RequestBody Member member){
-        // gives a 201 status message
-        memberService.saveMember(member); // add member
-        memberService.addRole(member.getEmail(),"ROLE_MEMBER");
-        memberService.addResume(member.getEmail(), new Resume(null, null, null, null));
-        memberService.addSkills(member.getEmail(), new Skills(null, "", null, true));
-        memberService.addEducation(member.getEmail(), new Education(null, "", null, true));
-        memberService.addExperience(member.getEmail(), new Experience(null, "", null, true));
-        return ResponseEntity.status(201).body("Member registered");
+
+        Boolean emailExists = memberService.userWithEmailExists(member.getEmail());
+
+        if (emailExists) {
+            return ResponseEntity.status(400).body("Email already exists");
+        } else {
+            // gives a 201 status message
+            memberService.saveMember(member); // add member
+            memberService.addRole(member.getEmail(),"ROLE_MEMBER");
+            memberService.addResume(member.getEmail(), new Resume(null, null, null, null));
+            memberService.addSkills(member.getEmail(), new Skills(null, "", null, true));
+            memberService.addEducation(member.getEmail(), new Education(null, "", null, true));
+            memberService.addExperience(member.getEmail(), new Experience(null, "", null, true));
+            return ResponseEntity.status(201).body("Member registered");
+        }
 
     }
 

@@ -88,6 +88,11 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
     }
 
     @Override
+    public Boolean userWithEmailExists(String email) {
+        return memberRep.existsByEmail(email);
+    }
+
+    @Override
     public MemberInfo getSpecifiedMemberInfo(String email) {
         List<Object[]> fake_list = memberRep.findSpecificMemberInfo(email);
         if (fake_list.isEmpty()) {

@@ -38,8 +38,7 @@ public class AuthenticationFilter  extends UsernamePasswordAuthenticationFilter 
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        log.info("Email is: {}", email);
-        log.info("Password is: {}", password);
+        
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
         return authenticationManager.authenticate(authenticationToken);
     }

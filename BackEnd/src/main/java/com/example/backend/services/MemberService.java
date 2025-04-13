@@ -1,8 +1,14 @@
 package com.example.backend.services;
 
-import com.example.backend.models.*;
-
 import java.util.List;
+
+import com.example.backend.models.Education;
+import com.example.backend.models.Experience;
+import com.example.backend.models.Member;
+import com.example.backend.models.MemberInfo;
+import com.example.backend.models.Resume;
+import com.example.backend.models.Role;
+import com.example.backend.models.Skills;
 
 public interface MemberService {
 
@@ -14,6 +20,8 @@ public interface MemberService {
 
     // get Member specified by email
     Member findMemberByEmail(String email);
+
+    Boolean userWithEmailExists(String email);
 
     MemberInfo getSpecifiedMemberInfo(String email);
 

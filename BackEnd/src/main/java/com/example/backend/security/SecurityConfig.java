@@ -7,8 +7,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -19,14 +17,13 @@ import com.example.backend.filters.AuthenticationFilter;
 import com.example.backend.filters.AuthorizationFilter;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /* Configures the security rules for HTTP requests on application start */
     @Bean
@@ -47,6 +44,8 @@ public class SecurityConfig {
             )
             .addFilter(authenticationFilter)
             .addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        log.info("SecurityFilterChain initialized");
 
         return http.build();
     }
@@ -69,12 +68,17 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
+
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.addExposedHeader("Authorization");
         config.addExposedHeader("Content-Type");
+
         source.registerCorsConfiguration("/**", config);
+
+        log.info("Cors Filter initialized");
+
         return new CorsFilter(source);
     }
 }

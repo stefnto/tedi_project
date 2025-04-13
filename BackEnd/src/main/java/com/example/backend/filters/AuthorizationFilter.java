@@ -39,7 +39,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
         // determine the authority the member has given his JWT
         if (request.getServletPath().equals("/api/login") ||
                 request.getServletPath().equals("/api/token/refresh")) { // if user is trying to login or refresh token, do nothing, pass to next request
-            filterChain.doFilter(request, response);
+                    filterChain.doFilter(request, response);
         } else {
             String authorization = request.getHeader(AUTHORIZATION);
             if (authorization != null && authorization.startsWith("Bearer ")) {
@@ -59,6 +59,10 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(username, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+                    log.debug("Authorization passed, continuing to next filter...");
+                    log.debug("Processing request for path: {}", request.getServletPath());
+
                     filterChain.doFilter(request, response);
                 } catch (JWTVerificationException | ServletException | IOException | IllegalArgumentException exception) {
                     response.setHeader("error", exception.getMessage());

@@ -1,18 +1,20 @@
 package com.example.backend.services;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.example.backend.models.Friend;
 import com.example.backend.models.Member;
 import com.example.backend.models.MemberInfo;
 import com.example.backend.repositories.FriendRepository;
 import com.example.backend.repositories.MemberRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
