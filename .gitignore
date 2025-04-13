@@ -1,4 +1,5 @@
 .idea/
 
 Backend/.idea/
+Backend/src/main/resources/application.properties
 Backend/target/
