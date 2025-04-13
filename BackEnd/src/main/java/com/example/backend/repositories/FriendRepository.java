@@ -1,11 +1,13 @@
 package com.example.backend.repositories;
 
-import com.example.backend.models.Friend;
+import java.math.BigInteger;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import java.math.BigInteger;
-import java.util.List;
+
+import com.example.backend.models.Friend;
 
 
 public interface FriendRepository extends JpaRepository<Friend, Long> {
@@ -46,26 +48,41 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 
     // returns list of the friends(MemberInfo) of the member_email's put as 'first_member_email'
     @Query(value =
-            "SELECT m.*" +
-            "FROM member m " +
-            "WHERE m.id IN " +
-            "(Select second_member_id " +
-            " FROM friend " +
-            " WHERE first_member_id = :member_id AND second_member_accepted = TRUE)",
-            nativeQuery = true)
+        "SELECT m.*" +
+        "FROM member m " +
+        "WHERE m.id IN " +
+        "(Select second_member_id " +
+        " FROM friend " +
+        " WHERE first_member_id = :member_id AND second_member_accepted = TRUE)",
+        nativeQuery = true)
     List<Object[]> findFriendsAsFirstMember(Long member_id);
 
     // returns list of the friends(MemberInfo) of the member_email's put as 'second_member_email'
     @Query(value =
-            "SELECT m.* " +
-            "FROM member m " +
-            "WHERE m.id IN " +
-            "(Select first_member_id " +
-            " FROM friend " +
-            " WHERE second_member_id = :member_id AND second_member_accepted = TRUE)",
-            nativeQuery = true)
+        "SELECT m.* " +
+        "FROM member m " +
+        "WHERE m.id IN " +
+        "(Select first_member_id " +
+        " FROM friend " +
+        " WHERE second_member_id = :member_id AND second_member_accepted = TRUE)",
+        nativeQuery = true)
     List<Object[]> findFriendsAsSecondMember(Long member_id);
 
+    @Query(value = 
+        "SELECT m.* " +
+        "FROM member m " +
+        "WHERE m.id IN (" +
+        "Select second_member_id " +
+        "   FROM friend " +
+        "   WHERE first_member_id = :member_id AND second_member_accepted = TRUE " +
+        "   UNION " +
+        "   Select first_member_id " +
+        "   FROM friend " +
+        "   WHERE second_member_id = :member_id AND second_member_accepted = TRUE " +
+        ")",
+        nativeQuery = true)
+    List<Object[]> findAllFriends(Long member_id);
+    
     // returns the members that have friend requested the member with 'member_email'
     @Query(value = "SELECT m.email " +
             "FROM member m " +

@@ -59,20 +59,26 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDTO> getAllPosts(String email) {
 
-        Member member = memberRep.findByEmail(email);
+        Member loggedInMember = memberRep.findByEmail(email);
 
-        List<MemberInfo> array = friendService.getFriends(email);
-        List<PostDTO> posts = new ArrayList<>();
-        List<Object[]> list;
+        List<MemberInfo> friendsArray = friendService.getFriends(email);
+        
+        List<PostDTO> postsToDisplay = new ArrayList<>();
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         // add friends' posts and then member's (email) posts
-        for (MemberInfo memberInfo : array){
-            list = postRep.allPostsOfUser(memberInfo.getId());
-            for (Object[] object : list){
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (MemberInfo memberInfo : friendsArray){
+            for (Object[] userPost : postRep.allPostsOfUser(memberInfo.getId())){
+                log.info("Type of userPost[0]: {}", userPost[0].getClass().getName());
                 try {
-                    posts.add(new PostDTO(Long.parseLong(object[0].toString()), formatter.parse(object[1].toString()),
-                            object[2].toString(), object[3].toString(), object[4].toString()));
+                    postsToDisplay.add(new PostDTO(
+                        (Long) userPost[0],
+                        dateFormatter.parse(userPost[1].toString()),
+                        userPost[2].toString(),
+                        userPost[3].toString(),
+                        userPost[4].toString()
+                    ));
                 } catch (ParseException e) {
                     /* Changed from e.printStackTrace() due to directly printing errors to standard error stream */
                     log.error("Error adding logged in users' friends' posts", e);
@@ -81,54 +87,65 @@ public class PostServiceImpl implements PostService {
             }
         }
 
-        list = postRep.allPostsOfUser(member.getId());
-        for (Object[] object : list){
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (Object[] userPost : postRep.allPostsOfUser(loggedInMember.getId())){
             try {
-                posts.add(new PostDTO(Long.parseLong(object[0].toString()), formatter.parse(object[1].toString()),
-                        object[2].toString(), object[3].toString(), object[4].toString()));
+                postsToDisplay.add(new PostDTO(
+                    (Long) userPost[0],
+                    dateFormatter.parse(userPost[1].toString()),
+                    userPost[2].toString(),
+                    userPost[3].toString(),
+                    userPost[4].toString()
+                ));
             } catch (ParseException e) {
                 log.error("Error adding logged in users' posts", e);
             }
 
         }
 
-        return posts;
+        return postsToDisplay;
     }
 
     @Override
     public List<Post> getRecommendedPosts(String email) {
 
         List<MemberInfo> friends = friendService.getFriends(email);
-        List<Object[]> list = postRep.getAllLikedPosts(email);
+        List<Object[]> likedPosts = postRep.getAllLikedPosts(email);
 
         // if member has no friend there can't be post recommendations
         if (!friends.isEmpty()) {
 
             List<Post> recommendedPosts = new ArrayList<>();
 
-            // post_ids exists so as not to put duplicates in recommendedPosts list
-            List<Long> post_ids = new ArrayList<>();
+            // postIds exists so as not to put duplicates in recommendedPosts list
+            List<Long> postIds = new ArrayList<>();
 
-            System.out.println(friends);
+            System.out.println(friends.size());
 
-            for (Object[] object : list) {
-                Long mem_id_that_liked_post = Long.parseLong(object[0].toString());
-                Long post_id = Long.parseLong(object[4].toString());
-                Long mem_id_that_made_post = Long.parseLong(object[5].toString());
-                MemberInfo memberInfo_that_liked_post = new MemberInfo(mem_id_that_liked_post, object[1].toString(), object[2].toString(), object[3].toString(), null);
-                MemberInfo memberInfo_that_made_post = new MemberInfo(mem_id_that_made_post, object[8].toString(), object[9].toString(), object[6].toString(), null);
-                System.out.println(memberInfo_that_liked_post);
+            for (Object[] likedPost : likedPosts) {
+                Long memberIdThatLikedPost = (Long) likedPost[0];
+                Long postId = (Long) likedPost[4];
+                Long memberIdThatMadePost = (Long) likedPost[5];
+                
+                MemberInfo memberInfoThatLikedPost = new MemberInfo(memberIdThatLikedPost, likedPost[1].toString(), likedPost[2].toString(), likedPost[3].toString(), null);
+                MemberInfo memberInfoThatMadePost = new MemberInfo(memberIdThatMadePost, likedPost[8].toString(), likedPost[9].toString(), likedPost[6].toString(), null);
+                System.out.println(memberInfoThatLikedPost);
 
-                if (!post_ids.contains(post_id)) {
-                    if (friends.contains(memberInfo_that_liked_post) && !friends.contains(memberInfo_that_made_post)) {
+                if (!postIds.contains(postId)) {
+                    if (friends.contains(memberInfoThatLikedPost) && !friends.contains(memberInfoThatMadePost)) {
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         try {
-                            Post post = new Post(post_id, object[10].toString(), null,
-                                    formatter.parse(object[7].toString()),
-                                    object[8].toString(), object[9].toString(), null, null, null);
+                            Post post = new Post(
+                                postId,
+                                likedPost[10].toString(),
+                                null,
+                                formatter.parse(likedPost[7].toString()),
+                                likedPost[8].toString(),
+                                likedPost[9].toString(),
+                                null, null, null
+                            );
                             System.out.println(post);
-                            post_ids.add(post_id);
+                            
+                            postIds.add(postId);
                             recommendedPosts.add(post);
                         } catch (ParseException e) {
                             log.error("Error adding post to recommended list", e);

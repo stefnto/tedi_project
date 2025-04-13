@@ -126,13 +126,22 @@ public class FriendServiceImpl implements FriendService{
 
         Member member = memberRep.findByEmail(member_email);
 
-        List<Object[]> list1 = friendRep.findFriendsAsFirstMember(member.getId());
-        list1.addAll(friendRep.findFriendsAsSecondMember(member.getId()));
+        List<Object[]> friendsList = friendRep.findAllFriends(member.getId());
 
         List<MemberInfo> friendsInfo = new ArrayList<>();
-        list1.forEach(object ->
-                friendsInfo.add(new MemberInfo(Long.parseLong(object[0].toString()) , object[2].toString(),
-                        object[5].toString(), object[1].toString(), null)));
+
+        friendsList.forEach(friendInfo ->
+            friendsInfo.add(
+                new MemberInfo(
+                    (Long) friendInfo[0],
+                    friendInfo[2].toString(),
+                    friendInfo[5].toString(),
+                    friendInfo[1].toString(),
+                    null
+                )
+            )
+        );
+        
         return friendsInfo;
     }
 
