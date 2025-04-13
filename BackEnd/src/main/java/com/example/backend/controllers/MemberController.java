@@ -1,30 +1,51 @@
 package com.example.backend.controllers;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.backend.models.*;
-import com.example.backend.services.MemberServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.backend.models.Education;
+import com.example.backend.models.Experience;
+import com.example.backend.models.Member;
+import com.example.backend.models.MemberInfo;
+import com.example.backend.models.Resume;
+import com.example.backend.models.Role;
+import com.example.backend.models.Skills;
+import com.example.backend.services.MemberServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 class MemberController {
     private final MemberServiceImpl memberService;
@@ -44,7 +65,7 @@ class MemberController {
 
     // checkEmailExists returns True if email exists else returns false
     @GetMapping("/members/get-email/{email}")
-    public ResponseEntity<Boolean> checkEmailExists(@PathVariable("email") String email) {
+    public ResponseEntity<Boolean> checkEmailExists(@PathVariable String email) {
         // ok() gives a 200 status message
         // tmp will be null object if member doesn't exist
         MemberInfo tmp = memberService.getSpecifiedMemberInfo(email);
@@ -53,14 +74,14 @@ class MemberController {
 
     // get member specified by email
     @GetMapping("/members/get/{email}")
-    public ResponseEntity<Member> getMemberByEmail(@PathVariable("email") String email) {
+    public ResponseEntity<Member> getMemberByEmail(@PathVariable String email) {
         // ok() gives a 200 status message
         return ResponseEntity.ok().body(memberService.findMemberByEmail(email));
     }
 
     // get memberInfo specified by email
     @GetMapping("/members/getInfo/{email}")
-    public ResponseEntity<MemberInfo> getMemberInfoByEmail(@PathVariable("email") String email) {
+    public ResponseEntity<MemberInfo> getMemberInfoByEmail(@PathVariable String email) {
         return ResponseEntity.ok().body(memberService.getSpecifiedMemberInfo(email));
     }
 
@@ -192,14 +213,21 @@ class MemberController {
     // register new member
     @PostMapping("/register")
     public ResponseEntity<String> registerMember(@RequestBody Member member){
-        // gives a 201 status message
-        memberService.saveMember(member); // add member
-        memberService.addRole(member.getEmail(),"ROLE_MEMBER");
-        memberService.addResume(member.getEmail(), new Resume(null, null, null, null));
-        memberService.addSkills(member.getEmail(), new Skills(null, "", null, true));
-        memberService.addEducation(member.getEmail(), new Education(null, "", null, true));
-        memberService.addExperience(member.getEmail(), new Experience(null, "", null, true));
-        return ResponseEntity.status(201).body("Member registered");
+
+        Boolean emailExists = memberService.userWithEmailExists(member.getEmail());
+
+        if (emailExists) {
+            return ResponseEntity.status(400).body("Email already exists");
+        } else {
+            // gives a 201 status message
+            memberService.saveMember(member); // add member
+            memberService.addRole(member.getEmail(),"ROLE_MEMBER");
+            memberService.addResume(member.getEmail(), new Resume(null, null, null, null));
+            memberService.addSkills(member.getEmail(), new Skills(null, "", null, true));
+            memberService.addEducation(member.getEmail(), new Education(null, "", null, true));
+            memberService.addExperience(member.getEmail(), new Experience(null, "", null, true));
+            return ResponseEntity.status(201).body("Member registered");
+        }
 
     }
 
@@ -227,7 +255,7 @@ class MemberController {
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 
-            } catch (Exception exception){
+            } catch (JWTCreationException | JWTVerificationException | IOException | IllegalArgumentException exception){
                 response.setHeader("error", exception.getMessage());
                 response.setStatus(FORBIDDEN.value());
                 Map<String, String> error = new HashMap<>();

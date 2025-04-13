@@ -1,21 +1,29 @@
 package com.example.backend.controllers;
 
 
-import com.example.backend.services.NotificationServiceImpl;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.backend.services.NotificationServiceImpl;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/notifications")
 public class NotificationController {
     private final NotificationServiceImpl notificationService;
 
     // returns list of unseen notifications
     @GetMapping("/get/{email}")
-    public ResponseEntity<?> getNotifications(@PathVariable("email") String email){
+    public ResponseEntity<?> getNotifications(@PathVariable String email){
         return ResponseEntity.ok().body(notificationService.getMemberNotifications(email));
     }
 

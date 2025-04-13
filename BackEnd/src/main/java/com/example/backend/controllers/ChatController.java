@@ -15,7 +15,7 @@ public class ChatController {
 
     // get messages of chat between two members
     @GetMapping("/getMessages/{email}")
-    public ResponseEntity<?>getMessages(@PathVariable("email") String email, @RequestHeader String interlocutor){
+    public ResponseEntity<?>getMessages(@PathVariable String email, @RequestHeader String interlocutor){
         return ResponseEntity.ok().body(chatroomService.showMessagesOfUserInChat(email, interlocutor));
     }
 

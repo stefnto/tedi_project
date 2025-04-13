@@ -1,13 +1,9 @@
 package com.example.backend.services;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.backend.models.*;
-import com.example.backend.repositories.*;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,10 +11,27 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.backend.models.Education;
+import com.example.backend.models.Experience;
+import com.example.backend.models.Member;
+import com.example.backend.models.MemberInfo;
+import com.example.backend.models.Resume;
+import com.example.backend.models.Role;
+import com.example.backend.models.Skills;
+import com.example.backend.repositories.EducationRepository;
+import com.example.backend.repositories.ExperienceRepository;
+import com.example.backend.repositories.MemberRepository;
+import com.example.backend.repositories.ResumeRepository;
+import com.example.backend.repositories.RoleRepository;
+import com.example.backend.repositories.SkillsRepository;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
@@ -75,9 +88,14 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
     }
 
     @Override
+    public Boolean userWithEmailExists(String email) {
+        return memberRep.existsByEmail(email);
+    }
+
+    @Override
     public MemberInfo getSpecifiedMemberInfo(String email) {
         List<Object[]> fake_list = memberRep.findSpecificMemberInfo(email);
-        if (fake_list.size() == 0) {
+        if (fake_list.isEmpty()) {
             return null;
         } else {
             Object[] obj = fake_list.get(0);
@@ -221,36 +239,36 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
     // make information public/private methods
 
     @Override
-    public void publicResume(Long id){ resumeRep.getById(id).setIsPublic(true);}
+    public void publicResume(Long id){ resumeRep.getReferenceById(id).setIsPublic(true);}
 
     @Override
-    public void privateResume(Long id){ resumeRep.getById(id).setIsPublic(false);}
+    public void privateResume(Long id){ resumeRep.getReferenceById(id).setIsPublic(false);}
 
     @Override
-    public void publicEduc(Long id){ educationRep.getById(id).setIsPublic(true); }
+    public void publicEduc(Long id){ educationRep.getReferenceById(id).setIsPublic(true); }
 
     @Override
     public void privateEduc(Long id){
-        educationRep.getById(id).setIsPublic(false);
+        educationRep.getReferenceById(id).setIsPublic(false);
     }
 
     @Override
-    public void publicExp(Long id){ experienceRep.getById(id).setIsPublic(true);
+    public void publicExp(Long id){ experienceRep.getReferenceById(id).setIsPublic(true);
     }
 
     @Override
     public void privateExp(Long id){
-        experienceRep.getById(id).setIsPublic(false);
+        experienceRep.getReferenceById(id).setIsPublic(false);
     }
 
     @Override
     public void publicSkills(Long id){
-        skillsRep.getById(id).setIsPublic(true);
+        skillsRep.getReferenceById(id).setIsPublic(true);
     }
 
     @Override
     public void privateSkills(Long id){
-        skillsRep.getById(id).setIsPublic(false);
+        skillsRep.getReferenceById(id).setIsPublic(false);
     }
 
 
