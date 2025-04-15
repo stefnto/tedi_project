@@ -73,21 +73,34 @@ export class MemberFormComponent implements OnInit {
 
 
   public onSubmit(): void {
-    this.memberService.checkIfEmailExists(this.registerForm.controls['email'].value).pipe(
-        tap(res => this.emailAlreadyExist = res),           // emailAlreadyExist becomes true if res is true, meaning notification already exists
-      filter(res => !res),                                //  if res = false  , meaning notification already exists switchMap won't be called
-      switchMap(() => this.memberService.registerMember(this.registerForm.value)))
-      .subscribe(
-        data => {
-          console.log(data)
+
+    this.memberService.registerMember(this.registerForm.value).subscribe(
+      {
+        next: (data) => {
+          console.log(data);
           this.isRegistered = true
           this.registerFail = false
         },
-        () => {
-          this.isRegistered = true
-          this.registerFail = false
-        }
-      )
+        error: (err) => {
+          console.log(err);
+        },
+      }
+    )
+    // this.memberService.checkIfEmailExists(this.registerForm.controls['email'].value).pipe(
+    //     tap(res => this.emailAlreadyExist = res),           // emailAlreadyExist becomes true if res is true, meaning notification already exists
+    //   filter(res => !res),                                //  if res = false  , meaning notification already exists switchMap won't be called
+    //   switchMap(() => this.memberService.registerMember(this.registerForm.value)))
+    //   .subscribe(
+    //     data => {
+    //       console.log(data)
+    //       this.isRegistered = true
+    //       this.registerFail = false
+    //     },
+    //     () => {
+    //       this.isRegistered = true
+    //       this.registerFail = false
+    //     }
+    //   )
   }
 
   public redirect_to_initial() {

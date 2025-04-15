@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit {
       this.getRecommendedPosts(this.email)
       this.memberService.getMemberInfoByEmail(this.email).subscribe(
         (response: MemberInfo) => {
-          this.member = response
+          this.member = response;
         }
       )
     }
@@ -254,106 +254,111 @@ export class HomeComponent implements OnInit {
   // gets all the posts of logged in member and their friends
   public getPosts(email: string): void {
     this.postService.getPostsFromEmail(email).subscribe(
-      (response: Post[]) => {
-        let i !: number;
-        this.posts = response
-        this.posts = this.sortByDate(this.posts)          // sort the posts by their dates
-
-        console.log(this.posts)
-        // initialize the arrays
-        this.post_comments = new Array(this.posts.length)
-        this.isLiked = new Array(this.posts.length)
-        this.likes = new Array(this.posts.length)
-        this.post_ids = new Array(this.posts.length)
-
-
-        // put ids into array
-        for (i = 0; i < this.posts.length; i++)
-          this.post_ids[i] = this.posts[i].id
-
-
-        //gets the number of likes of the posts that the member sees
-        //checks if the logged in member has liked the post or not
-        this.getLikes(this.post_ids)
-        this.getlikedPostsByMember(this.post_ids, email)
-
-
-        // isPressed is used to determine if a comment section on a post should be shown or hidden
-        this.isPressed = new Array(this.posts.length)
-        for (i = 0; i < this.posts.length; i++)
-          this.isPressed[i] = false
-
-
-        this.postService.getImages(this.post_ids).subscribe(
-          (response: Image[]) => {
-            this.post_images = response
-          }
-        )
-
-        this.postService.getVideos(this.post_ids).subscribe(
-          (response: Video[]) => {
-            this.post_videos = response
-          }
-        )
-
-        this.postService.getAudios(this.post_ids).subscribe(
-          (response) => {
-            this.post_audios = response
-          }
-        )
-
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+      {
+        next: (response: Post[]) => {
+          let i !: number;
+          this.posts = response
+          this.posts = this.sortByDate(this.posts)          // sort the posts by their dates
+  
+          console.log(this.posts)
+          // initialize the arrays
+          this.post_comments = new Array(this.posts.length)
+          this.isLiked = new Array(this.posts.length)
+          this.likes = new Array(this.posts.length)
+          this.post_ids = new Array(this.posts.length)
+  
+  
+          // put ids into array
+          for (i = 0; i < this.posts.length; i++)
+            this.post_ids[i] = this.posts[i].id
+  
+  
+          //gets the number of likes of the posts that the member sees
+          //checks if the logged in member has liked the post or not
+          this.getLikes(this.post_ids)
+          this.getlikedPostsByMember(this.post_ids, email)
+  
+  
+          // isPressed is used to determine if a comment section on a post should be shown or hidden
+          this.isPressed = new Array(this.posts.length)
+          for (i = 0; i < this.posts.length; i++)
+            this.isPressed[i] = false
+  
+  
+          this.postService.getImages(this.post_ids).subscribe(
+            (response: Image[]) => {
+              this.post_images = response
+            }
+          )
+  
+          this.postService.getVideos(this.post_ids).subscribe(
+            (response: Video[]) => {
+              this.post_videos = response
+            }
+          )
+  
+          this.postService.getAudios(this.post_ids).subscribe(
+            (response) => {
+              this.post_audios = response
+            }
+          )
+  
+        },
+        error: (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
       }
     )
   }
 
   public getRecommendedPosts(email: string): void {
     this.postService.getRecommendedPosts(email).subscribe(
-      (response: Post[]) => {
-        let i !: number
-        this.recommended_posts = response
-        this.recommended_posts = this.sortByDate(this.recommended_posts)
-
-        console.log(this.recommended_posts)
-
-        this.recommended_post_comments = new Array(this.recommended_posts.length)
-        this.recommended_isLiked = new Array(this.recommended_posts.length)
-        this.recommended_likes = new Array(this.recommended_posts.length)
-        this.recommended_post_ids = new Array(this.recommended_posts.length)
-
-        for (i = 0; i < this.recommended_posts.length; i++)
-          this.recommended_post_ids[i] = this.recommended_posts[i].id
-
-        this.getRecommendedPostsLikes(this.recommended_post_ids)
-        this.getlikedRecommendedPostsByMember(this.recommended_post_ids, email)
-
-        this.recommended_isPressed = new Array(this.recommended_posts.length)
-        for (i = 0; i < this.recommended_posts.length; i++)
-          this.recommended_isPressed[i] = false
-
-        this.postService.getImages(this.recommended_post_ids).subscribe(
-          (response: Image[]) => {
-            this.recommended_post_images = response
-          }
-        )
-
-        this.postService.getVideos(this.recommended_post_ids).subscribe(
-          (response: Video[]) => {
-            this.recommended_post_videos = response
-          }
-        )
-
-        this.postService.getAudios(this.recommended_post_ids).subscribe(
-          (response) => {
-            this.recommended_post_audios = response
-          }
-        )
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message)
+      {
+        next: (response: Post[]) => {
+          let i !: number
+          this.recommended_posts = response
+          this.recommended_posts = this.sortByDate(this.recommended_posts)
+  
+          console.log(this.recommended_posts)
+  
+          this.recommended_post_comments = new Array(this.recommended_posts.length)
+          this.recommended_isLiked = new Array(this.recommended_posts.length)
+          this.recommended_likes = new Array(this.recommended_posts.length)
+          this.recommended_post_ids = new Array(this.recommended_posts.length)
+  
+          for (i = 0; i < this.recommended_posts.length; i++)
+            this.recommended_post_ids[i] = this.recommended_posts[i].id
+  
+          this.getRecommendedPostsLikes(this.recommended_post_ids)
+          this.getlikedRecommendedPostsByMember(this.recommended_post_ids, email)
+  
+          this.recommended_isPressed = new Array(this.recommended_posts.length)
+          for (i = 0; i < this.recommended_posts.length; i++)
+            this.recommended_isPressed[i] = false
+  
+          this.postService.getImages(this.recommended_post_ids).subscribe(
+            (response: Image[]) => {
+              this.recommended_post_images = response
+            }
+          )
+  
+          this.postService.getVideos(this.recommended_post_ids).subscribe(
+            (response: Video[]) => {
+              this.recommended_post_videos = response
+            }
+          )
+  
+          this.postService.getAudios(this.recommended_post_ids).subscribe(
+            (response) => {
+              this.recommended_post_audios = response
+            }
+          )
+        },
+        error: (error: HttpErrorResponse) => {
+          alert(error.message)
+        }
       }
+      
     )
   }
 

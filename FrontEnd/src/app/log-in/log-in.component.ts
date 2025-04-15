@@ -53,20 +53,23 @@ export class LogInComponent implements OnInit {
 
   public login(): void {
     this.authService.loginMember(this.loginForm.value).subscribe(
-      () => {
-        this.loginFail = false
-        this.isLoggedIn = true;
-        if (this.tokenStorage.getRole() ===  "ROLE_ADMIN"){
-          this.redirect_to_Admin_home()
-        } else {
-          this.redirect_to_home()
-        }
+      {
+        next: (response) => {
+          this.loginFail = false
+          this.isLoggedIn = true;
+          if (this.tokenStorage.getRole() ===  "ROLE_ADMIN"){
+            this.redirect_to_Admin_home()
+          } else {
+            this.redirect_to_home()
+          }
         },
-      err => {
-        this.msg = "Bad credentials, please try again"
-        this.errMessage = err
-        this.loginFail = true
+        error: (error) => {
+          this.msg = "Bad credentials, please try again"
+          this.errMessage = error;
+          this.loginFail = true
+        }
       }
+        
      )
   }
 

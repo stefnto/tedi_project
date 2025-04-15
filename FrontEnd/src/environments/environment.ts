@@ -6,7 +6,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://localhost:8443'
+  baseUrl: 'http://localhost:8443'
 };
 
 /*

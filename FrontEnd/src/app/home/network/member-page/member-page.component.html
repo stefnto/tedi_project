@@ -1,4 +1,4 @@
-<div class="container" *ngIf="member_exists; else notExists">
+<div class="container" *ngIf="memberExists; else notExists">
   <h1 style="text-align: center">Profile</h1>
 
   <div *ngIf="areFriends; else notFriends">
@@ -8,7 +8,7 @@
 
     <div class="email">
       <strong>Email:</strong>
-      {{ member_page_email }}
+      {{ memberPageEmail }}
     </div>
     <br>
     <div class="isFriend">
@@ -39,43 +39,47 @@
 
   <ng-template #notFriends>
     <div *ngIf="!areFriends">
-      <div class="name">
-        <strong>{{searchedMember.surname}} {{searchedMember.name}}</strong>
-      </div>
-
-      <div class="email">
-        <strong>Email:</strong>
-        {{ member_page_email }}
-      </div>
-      <div class="isNotFriend">
-
-        You are not friends with {{member_page_email}}<br>
-        Send friend request?
-        <input type="button" (click)="sendFriendRequest()" value="Add friend">
-        <div class="alert alert-success" *ngIf="requestSent">
-          {{requestSent}}
+      @if (searchedMember$ | async; as searchedMember) {
+        <div class="name">
+          <strong>{{searchedMember.surname}} {{searchedMember.name}}</strong>
         </div>
-      </div>
-
-      <div class="CV" *ngIf="!isObjectEmpty(memberCV) && memberCV.isPublic">
-        <strong>CV: </strong>
-        {{memberCV.text}}
-      </div>
-
-      <div class="experience" *ngIf="!isObjectEmpty(experience) && experience.isPublic">
-        <strong>Experience: </strong>
-        {{experience.text}}
-      </div>
-
-      <div class="education" *ngIf="!isObjectEmpty(education) && education.isPublic">
-        <strong>Education: </strong>
-        {{education.text}}
-      </div>
-
-      <div class="skills" *ngIf="!isObjectEmpty(skills) && skills.isPublic">
-        <strong>Skills: </strong>
-        {{skills.text}}
-      </div>
+  
+        <div class="email">
+          
+          <strong>Email:</strong>
+          {{ memberPageEmail }}
+        </div>
+        <div class="isNotFriend">
+  
+          You are not friends with {{memberPageEmail}}<br>
+          Send friend request?
+          <input type="button" (click)="sendFriendRequest()" value="Add friend">
+          <div class="alert alert-success" *ngIf="requestSent">
+            {{requestSent}}
+          </div>
+        </div>
+  
+        <div class="CV" *ngIf="!isObjectEmpty(memberCV) && memberCV.isPublic">
+          <strong>CV: </strong>
+          {{memberCV.text}}
+        </div>
+  
+        <div class="experience" *ngIf="!isObjectEmpty(experience) && experience.isPublic">
+          <strong>Experience: </strong>
+          {{experience.text}}
+        </div>
+  
+        <div class="education" *ngIf="!isObjectEmpty(education) && education.isPublic">
+          <strong>Education: </strong>
+          {{education.text}}
+        </div>
+  
+        <div class="skills" *ngIf="!isObjectEmpty(skills) && skills.isPublic">
+          <strong>Skills: </strong>
+          {{skills.text}}
+        </div>
+      }
+      
 
     </div>
   </ng-template>

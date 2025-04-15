@@ -8,6 +8,7 @@ import { Education } from "../../../models/education";
 import { Experience } from "../../../models/experience";
 import { Skills } from "../../../models/skills";
 import { Resume } from "../../../models/resume";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-member-page',
@@ -21,11 +22,13 @@ export class MemberPageComponent implements OnInit, OnDestroy {
   public loggedinMemberEmail: any
 
   // information about the member that it's profile is being displayed
-  public member_page_email: any
-  public member_exists!: boolean
+  public memberPageEmail: any
+  public memberExists!: boolean
   public memberCV!: Resume
   public areFriends: any
   public searchedMember!: MemberInfo
+
+  searchedMember$!: Observable<MemberInfo>
 
   public education!: Education
   public experience!: Experience
@@ -47,8 +50,8 @@ export class MemberPageComponent implements OnInit, OnDestroy {
 
     // get notification from route params and put it to session storage
     this.sub = this.route.params.subscribe(params => {
-      this.member_page_email = params['notification']
-      this.member_page_email = JSON.stringify(this.member_page_email).replace("[", "")
+      this.memberPageEmail = params['notification']
+      this.memberPageEmail = JSON.stringify(this.memberPageEmail).replace("[", "")
         .replace("'", "")
         .replace("'", "")
         .replace("'", "")
@@ -59,35 +62,37 @@ export class MemberPageComponent implements OnInit, OnDestroy {
         .replace(" ", "")
     })
 
-    if (this.member_page_email !== 'member-not-exists') {
-      this.member_exists = true
+    if (this.memberPageEmail !== 'member-not-exists') {
+      this.memberExists = true
 
-      this.memberProfileService.saveEmail(this.member_page_email)
+      this.memberProfileService.saveEmail(this.memberPageEmail)
 
-      this.memberService.getMemberInfoByEmail(this.member_page_email).subscribe(
+      this.searchedMember$ = this.memberService.getMemberInfoByEmail(this.memberPageEmail);
+      this.memberService.getMemberInfoByEmail(this.memberPageEmail).subscribe(
         (response: MemberInfo) => {
+          console.log(response);
           this.searchedMember = response
         }
       )
       // get CV from backend and put it to session storage
-      this.memberService.getResume(this.member_page_email).subscribe(
+      this.memberService.getResume(this.memberPageEmail).subscribe(
         (data: Resume) => {
           this.memberCV = data
         }
       )
 
       // if members are friends areFriends becomes true
-      this.friendService.checkFriends(this.loggedinMemberEmail, this.member_page_email).subscribe(
+      this.friendService.checkFriends(this.loggedinMemberEmail, this.memberPageEmail).subscribe(
         data => {
           this.areFriends = data
         }
       )
 
-      this.getPersonalData(this.member_page_email)
+      this.getPersonalData(this.memberPageEmail)
 
     }
     else
-      this.member_exists = false
+      this.memberExists = false
   }
 
   ngOnDestroy(): void {
@@ -95,7 +100,7 @@ export class MemberPageComponent implements OnInit, OnDestroy {
   }
 
   public sendFriendRequest(): void {
-    this.friendService.sendFriendRequest(this.loggedinMemberEmail, this.member_page_email).subscribe(
+    this.friendService.sendFriendRequest(this.loggedinMemberEmail, this.memberPageEmail).subscribe(
       data => {
         this.requestSent = data
       }

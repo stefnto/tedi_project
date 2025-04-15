@@ -44,8 +44,8 @@ export class FriendService {
   public checkFriends(email1: string, email2: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.membersUrl}/request/exists`, {
       headers: new HttpHeaders()
-        .set('email1', email1)
-        .set('email2', email2)
+        .set('firstMemberEmail', email1)
+        .set('secondMemberEmail', email2)
     })
   }
 
