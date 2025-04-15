@@ -1,7 +1,7 @@
 package com.example.backend.services;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -10,7 +10,6 @@ import com.example.backend.models.Friend;
 import com.example.backend.models.Member;
 import com.example.backend.models.MemberInfo;
 import com.example.backend.repositories.FriendRepository;
-import com.example.backend.repositories.MemberRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,63 +22,116 @@ import lombok.extern.slf4j.Slf4j;
 public class FriendServiceImpl implements FriendService{
 
     private final FriendRepository friendRep;
-    private final MemberRepository memberRep;
     private final ChatroomService chatService;
     private final MemberService memberService;
 
 
     @Override
-    public String friendRequest(String sender_email, String acceptor_email){
-        String ret;
-        if (sender_email.equals(acceptor_email)){
-            ret = "You cannot send a friend request to yourself";
+    public Boolean friendshipRequestExists(Long firstMemberId, Long SecondMemberId) {
+
+        try {
+            // Check if there is a friend request made from the first_member to the second_member
+            Boolean friendshipExists = friendRep.friendshipRequestExists(firstMemberId, SecondMemberId);
+            return friendshipExists;
+
+        } catch (Exception e) {
+            log.error("Error checking if friendship request exists: {}", e.getMessage());
+            return false;
         }
-        else {
+        
+    }
 
-            // sender is the member making the request
-            // acceptor is the member being requested
-            Member sender = memberRep.findByEmail(sender_email);
-            Member acceptor = memberRep.findByEmail(acceptor_email);
+    @Override
+    public Boolean friendshipRequestIsAccepted(String firstMemberEmail, String secondMemberEmail) {
 
-            // checks if members are already friends
-            // if a friendship exists it cannot exist again with inverted members
-            BigInteger exists = friendRep.friendshipRequestExists(sender.getId(), acceptor.getId());
-            BigInteger exists_inverted = friendRep.friendshipRequestExists(acceptor.getId(), sender.getId());
-            if (exists.equals(BigInteger.ONE) || exists_inverted.equals(BigInteger.ONE)) {
+        // Get the member information for both users
+        Member firstMemberInfo = memberService.findMemberByEmail(firstMemberEmail);
+        Member secondMemberInfo = memberService.findMemberByEmail(secondMemberEmail);
+
+        Boolean friendshipRequestExists = this.friendshipRequestExists(firstMemberInfo.getId(), secondMemberInfo.getId());
+
+        if (!friendshipRequestExists) {
+            return false;
+        }
+
+        try {
+
+            Boolean friendshipRequestIsAccepted = friendRep.friendshipRequestIsAccepted(firstMemberInfo.getId(), secondMemberInfo.getId());
+            return friendshipRequestIsAccepted;
+
+        } catch (Exception e) {
+            log.error("Error checking if friendship request between member {} and member {} is accepted.\nError message: {}", firstMemberEmail, secondMemberEmail, e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public String sendFriendshipRequest(String firstMemberEmail, String secondMemberEmail){
+        String ret;
+
+        if (firstMemberEmail.equals(secondMemberEmail)){
+            ret = "You cannot send a friend request to yourself";
+        } else {
+
+            // Get the member information for both users
+            Member firstMember = memberService.findMemberByEmail(firstMemberEmail);
+            Member secondMember = memberService.findMemberByEmail(secondMemberEmail);
+
+            Boolean friendshipRequestExists = this.friendshipRequestExists(firstMember.getId(), secondMember.getId());
+            
+            if (friendshipRequestExists) {
                 ret = "Friend request failed, request is waiting to be accepted ";
             } else {
-                // basically makes the request, sender has accepted the friendship, acceptor hasn't
-                friendRep.save(new Friend(null, null, sender, true, acceptor, false));
-                //log.info("{} has sent {} a friend request", sender_email, acceptor_email);
-                ret = "Friend request sent";
+
+                try {
+
+                    // Sets new friend request with the first member as the sender and the second member as the receiver
+                    friendRep.save(new Friend(null, new Date(), null, firstMember, true, secondMember, false));
+
+                    ret = "Friend request sent";
+
+                } catch (Exception e) {
+                    log.error("Error sending friend request from {} to {}: {}", firstMemberEmail, secondMemberEmail, e.getMessage());
+                    ret = "Friend request failed, please try again later";
+                }
+                
             }
         }
         return ret;
     }
 
     @Override
-    public String acceptFriendRequest(String sender_email, String acceptor_email) {
+    public String acceptFriendshipRequest(String firstMemberEmail, String secondMemberEmail) {
         String ret;
-        if (sender_email.equals(acceptor_email)) {
+
+        if (firstMemberEmail.equals(secondMemberEmail)) {
             ret = "Trying to self accept friend request, error";
         } else {
-            // sender is the member making the request
-            // acceptor is the member being requested
-            Member sender = memberRep.findByEmail(sender_email);
-            Member acceptor = memberRep.findByEmail(acceptor_email);
 
+            Member firstMember = memberService.findMemberByEmail(firstMemberEmail);
+            Member secondMember = memberService.findMemberByEmail(secondMemberEmail);
 
-            // check if there is a friend request made from the first_member to the second_member
-            BigInteger exists = friendRep.friendshipRequestExists(sender.getId(), acceptor.getId());
-            if (exists.equals(BigInteger.ONE)) {
-                // request exists, check if it is accepted, else accept it
-                BigInteger isAccepted = friendRep.friendshipRequestIsAccepted(sender.getId(), acceptor.getId());
-                if (isAccepted.equals(BigInteger.ZERO)) {
-                    friendRep.acceptFriendRequest(sender.getId(), acceptor.getId());
-                    ret = "Request accepted";
+            Boolean friendshipRequestExists = friendRep.friendshipRequestExists(firstMember.getId(), secondMember.getId());
+
+            if (friendshipRequestExists) {
+
+                Boolean isAccepted = friendRep.friendshipRequestIsAccepted(firstMember.getId(), secondMember.getId());
+
+                if (!isAccepted) {
+
+                    try {
+
+                        friendRep.acceptFriendRequest(firstMember.getId(), secondMember.getId(), new Date());
+
+                        ret = "Request accepted";
+
+                    } catch (Exception e) {
+                        log.error("Error accepting friend request from {} to {}: {}", firstMemberEmail, secondMemberEmail, e.getMessage());
+                        ret = "REQ_ACCEPTANCE_ERROR";
+                    }
 
                     // when friendship is made a chatroom for the new friends is made
-                    chatService.saveChatroom(memberService.findMemberByEmail(sender_email), memberService.findMemberByEmail(acceptor_email));
+                    chatService.saveChatroom(memberService.findMemberByEmail(firstMemberEmail), memberService.findMemberByEmail(secondMemberEmail));
 
                 } else {
                     ret = "Already friends";
@@ -89,28 +141,40 @@ public class FriendServiceImpl implements FriendService{
             }
 
         }
+        
         return ret;
     }
 
     @Override
-    public String declineFriendRequest(String sender_email, String acceptor_email) {
+    public String declineFriendshipRequest(String firstMemberEmail, String secondMemberEmail) {
         String ret;
-        if (sender_email.equals(acceptor_email)){
+        if (firstMemberEmail.equals(secondMemberEmail)){
             ret = "Trying to self decline friend request, error";
         } else {
-            // sender is the member making the request
-            // acceptor is the member being requested
-            Member sender = memberRep.findByEmail(sender_email);
-            Member acceptor = memberRep.findByEmail(acceptor_email);
 
-            // check if there is a friend request made from the first_member to the second_member
-            BigInteger exists = friendRep.friendshipRequestExists(sender.getId(), acceptor.getId());
-            if (exists.equals(BigInteger.ONE)) {
-                // request exists, check if it is accepted, else decline it
-                BigInteger isAccepted = friendRep.friendshipRequestIsAccepted(sender.getId(), acceptor.getId());
-                if (isAccepted.equals(BigInteger.ZERO)) {
-                    friendRep.declineFriendRequest(sender.getId(), acceptor.getId());
-                    ret = "Request declined";
+            // Get the member information for both users
+            Member firstMember = memberService.findMemberByEmail(firstMemberEmail);
+            Member secondMember = memberService.findMemberByEmail(secondMemberEmail);
+
+            Boolean friendshipRequestExists = friendRep.friendshipRequestExists(firstMember.getId(), secondMember.getId());
+
+            if (friendshipRequestExists) {
+                
+                Boolean isAccepted = friendRep.friendshipRequestIsAccepted(firstMember.getId(), secondMember.getId());
+
+                if (!isAccepted) {
+
+                    try {
+
+                        friendRep.declineFriendRequest(firstMember.getId(), secondMember.getId());
+                        
+                        ret = "Request declined";
+                        
+                    } catch (Exception e) {
+                        log.error("Error declining friend request from {} to {}: {}", firstMemberEmail, secondMemberEmail, e.getMessage());
+                        ret = "REQ_DECLINE_ERROR";
+                    }
+                    
                 } else {
                     ret = "Already friends";
                 }
@@ -122,9 +186,9 @@ public class FriendServiceImpl implements FriendService{
     }
 
     @Override
-    public List<MemberInfo> getFriends(String member_email){
+    public List<MemberInfo> getFriends(String memberEmail){
 
-        Member member = memberRep.findByEmail(member_email);
+        Member member = memberService.findMemberByEmail(memberEmail);
 
         List<Object[]> friendsList = friendRep.findAllFriends(member.getId());
 
@@ -146,20 +210,9 @@ public class FriendServiceImpl implements FriendService{
     }
 
     @Override
-    public Boolean areFriends(String mail1, String mail2) {
+    public List<String> getFriendshipRequests(String memberEmail){
 
-        Member member1 = memberRep.findByEmail(mail1);
-        Member member2 = memberRep.findByEmail(mail2);
-
-        BigInteger friends = friendRep.friendshipRequestIsAccepted(member1.getId(), member2.getId());
-        BigInteger friends_inverse = friendRep.friendshipRequestIsAccepted(member2.getId(), member1.getId());
-        return friends.equals(BigInteger.ONE) || friends_inverse.equals(BigInteger.ONE);
-    }
-
-    @Override
-    public List<String> getFriendsRequests(String member_email){
-
-        Member member = memberRep.findByEmail(member_email);
+        Member member = memberService.findMemberByEmail(memberEmail);
         return friendRep.findFriendRequests(member.getId());
     }
 }

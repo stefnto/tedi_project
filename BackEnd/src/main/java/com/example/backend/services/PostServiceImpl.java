@@ -67,20 +67,20 @@ public class PostServiceImpl implements PostService {
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        // add friends' posts and then member's (email) posts
+        // Add friends' posts and then member's (email) posts
         for (MemberInfo memberInfo : friendsArray){
             for (Object[] userPost : postRep.allPostsOfUser(memberInfo.getId())){
-                log.info("Type of userPost[0]: {}", userPost[0].getClass().getName());
                 try {
-                    postsToDisplay.add(new PostDTO(
-                        (Long) userPost[0],
-                        dateFormatter.parse(userPost[1].toString()),
-                        userPost[2].toString(),
-                        userPost[3].toString(),
-                        userPost[4].toString()
-                    ));
+                    postsToDisplay.add(
+                        new PostDTO(
+                            (Long) userPost[0],
+                            dateFormatter.parse(userPost[1].toString()),
+                            userPost[2].toString(),
+                            userPost[3].toString(),
+                            userPost[4].toString()
+                        )
+                    );
                 } catch (ParseException e) {
-                    /* Changed from e.printStackTrace() due to directly printing errors to standard error stream */
                     log.error("Error adding logged in users' friends' posts", e);
                 }
 
@@ -89,13 +89,15 @@ public class PostServiceImpl implements PostService {
 
         for (Object[] userPost : postRep.allPostsOfUser(loggedInMember.getId())){
             try {
-                postsToDisplay.add(new PostDTO(
-                    (Long) userPost[0],
-                    dateFormatter.parse(userPost[1].toString()),
-                    userPost[2].toString(),
-                    userPost[3].toString(),
-                    userPost[4].toString()
-                ));
+                postsToDisplay.add(
+                    new PostDTO(
+                        (Long) userPost[0],
+                        dateFormatter.parse(userPost[1].toString()),
+                        userPost[2].toString(),
+                        userPost[3].toString(),
+                        userPost[4].toString()
+                    )
+                );
             } catch (ParseException e) {
                 log.error("Error adding logged in users' posts", e);
             }

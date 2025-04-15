@@ -1,18 +1,20 @@
 package com.example.backend.services;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.example.backend.models.Chatroom;
 import com.example.backend.models.Member;
 import com.example.backend.models.MessageDTO;
 import com.example.backend.repositories.ChatroomRepository;
 import com.example.backend.repositories.MemberRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
@@ -25,7 +27,13 @@ public class ChatroomServiceImpl implements ChatroomService {
 
     @Override
     public void saveChatroom(Member member_one, Member member_two) {
-        chatRep.save(new Chatroom(null, member_one, member_two));
+
+        try {
+            chatRep.save(new Chatroom(null, member_one, member_two));
+        } catch (Exception e) {
+            log.error("Error creating chatroom: {}", e.getMessage());
+        }
+        
     }
 
     @Override

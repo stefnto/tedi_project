@@ -1,11 +1,20 @@
 package com.example.backend.models;
 
+import java.util.Date;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import jakarta.persistence.*;
-import java.util.Date;
 
 @Entity
 @Data
@@ -19,9 +28,14 @@ public class Friend {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    // date that "friendship" was made is kept
-    @Column(name = "created_date")
-    private Date dateCreated;
+    // date friendship request was send
+    @Column(name = "request_creation_date")
+    private Date requestCreationDate;
+
+
+    // date friendship request was accepted
+    @Column(name = "request_acceptance_date")
+    private Date requestAcceptanceDate;
 
     // sender of friendship request
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

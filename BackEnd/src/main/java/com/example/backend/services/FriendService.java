@@ -1,26 +1,46 @@
 package com.example.backend.services;
 
-import com.example.backend.models.MemberInfo;
-
 import java.util.List;
+
+import com.example.backend.models.MemberInfo;
 
 public interface FriendService {
 
-    // sends friendRequest from sender_email to acceptor_email
-    String friendRequest(String sender_email, String acceptor_email);
+    /**
+     * @return true or false depending if a friendship exists between the two members
+     */
+    Boolean friendshipRequestExists(Long firstMemberId, Long SecondMemberId);
 
-    // accepts friendRequest of sender_email to acceptor_email
-    String acceptFriendRequest(String sender_email, String acceptor_email);
+    /**
+     * @return true or false depending if members are friends
+     * */
+    Boolean friendshipRequestIsAccepted(String firstMemberEmail, String secondMemberEmail);
 
-    // declines friendRequest of sender_email to acceptor_email
-    String declineFriendRequest(String sender_email, String acceptor_email);
+    /** 
+     * Sends friendshipRequest from firstMemberEmail to secondMemberEmail 
+     * @return true or false depending if the request was sent successfully
+     */ 
+    String sendFriendshipRequest(String firstMemberEmail, String secondMemberEmail);
 
-    // gets all friends of member_email and returns them
-    List<MemberInfo> getFriends(String member_email);
+    /** 
+     * Accepts friendshipRequest of firstMemberEmail to secondMemberEmail
+     * @return true or false depending if the request was accepted successfully
+     */
+    String acceptFriendshipRequest(String firstMemberEmail, String secondMemberEmail);
 
-    // returns true or false depending if members are friends
-    Boolean areFriends(String email1, String email2);
+    /** 
+     * Declines friendshipRequest of firstMemberEmail to secondMemberEmail
+     * @return true or false depending if the request was declined successfully
+     */
+    String declineFriendshipRequest(String firstMemberEmail, String secondMemberEmail);
 
-    // returns list of emails that have sent a friend request to member_email
-    List<String> getFriendsRequests(String member_email);
+    /**
+     * @return List of MemberInfo objects representing the friends of the member.
+     */
+    List<MemberInfo> getFriends(String memberEmail);
+
+    /**
+     * @return List of String objects representing the unaccepted friendship requests sent to the member.
+     */
+    List<String> getFriendshipRequests(String memberEmail);
 }

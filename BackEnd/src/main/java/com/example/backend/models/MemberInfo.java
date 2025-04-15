@@ -14,4 +14,12 @@ public class MemberInfo {
     String surname;
     String email;
     String phone;
+
+    // Constructor without 'phone'
+    public MemberInfo(Long id, String name, String surname, String email) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+    }
 }

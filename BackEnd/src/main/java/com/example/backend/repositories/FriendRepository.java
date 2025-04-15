@@ -1,11 +1,12 @@
 package com.example.backend.repositories;
 
-import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.backend.models.Friend;
 
@@ -13,31 +14,29 @@ import com.example.backend.models.Friend;
 public interface FriendRepository extends JpaRepository<Friend, Long> {
 
     // checks if a "friendship" between the two members exists
-    @Query(value = "SELECT CASE WHEN (f.first_member_accepted = TRUE AND COUNT(*) > 0) " +
-                    "THEN TRUE " +
-                    "ELSE FALSE " +
-                    "END " +
-                    "FROM friend f " +
-                    "WHERE f.first_member_id = :first AND f.second_member_id = :second",
-            nativeQuery = true)
-    BigInteger friendshipRequestExists(Long first, Long second);
+    @Query(
+        " SELECT CASE WHEN COUNT(f) > 0 THEN true ELSE false END " +
+        " FROM Friend f " +
+        " WHERE (f.firstMember.id = :firstMemberId AND f.secondMember.id = :secondMemberId) " +
+        " OR (f.firstMember.id = :secondMemberId AND f.secondMember.id = :firstMemberId) ")
+    Boolean friendshipRequestExists(@Param("firstMemberId") Long firstMemberId, @Param("secondMemberId") Long secondMemberId);
 
     // checks if the "friendship" is accepted by both members
-    @Query(value = "SELECT CASE WHEN (f.first_member_accepted = TRUE AND f.second_member_accepted = TRUE AND COUNT(*) > 0) " +
-                    "THEN TRUE " +
-                    "ELSE FALSE " +
-                    "END " +
-                    "FROM friend f " +
-                    "WHERE f.first_member_id = :first AND f.second_member_id = :second",
-            nativeQuery = true)
-    BigInteger friendshipRequestIsAccepted(Long first, Long second);
+    @Query(
+        " SELECT CASE WHEN COUNT(f) > 0 THEN true ELSE false END " +
+        " FROM Friend f " +
+        " WHERE ((f.firstMember.id = :firstMemberId AND f.secondMember.id = :secondMemberId) " +
+        " OR (f.firstMember.id = :secondMemberId AND f.secondMember.id = :firstMemberId)) " +
+        " AND f.firstMemberAccepted = true " +
+        " AND f.secondMemberAccepted = true")
+    Boolean friendshipRequestIsAccepted(@Param("firstMemberId") Long firstMemberId, @Param("secondMemberId") Long secondMemberId);
 
     // accepts the request made from first_member to second_member
     @Modifying
-    @Query(value = "Update friend f SET f.second_member_accepted = TRUE " +
-            "WHERE f.first_member_id = :first AND f.second_member_id = :second",
-            nativeQuery = true)
-    void acceptFriendRequest(Long first, Long second);
+    @Query("Update Friend f SET f.secondMemberAccepted = TRUE, f.requestAcceptanceDate = :requestAcceptanceDate " +
+            "WHERE f.firstMember.id = :firstMemberId AND f.secondMember.id = :secondMemberId"
+            )
+    void acceptFriendRequest(@Param("firstMemberId") Long firstMemberId, @Param("secondMemberId") Long secondMemberId, @Param("requestAcceptanceDate") Date requestAcceptanceDate);
 
     @Modifying
     @Query(value = "DELETE FROM friend " +

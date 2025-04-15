@@ -1,13 +1,12 @@
 package com.example.backend.repositories;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.backend.models.Member;
+import com.example.backend.models.MemberInfo;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -16,9 +15,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     boolean existsByEmail(String email);
 
-    @Query(value = "SELECT m.id, m.name, m.surname, m.email FROM member m WHERE m.email = :email",
-            nativeQuery = true)
-    List<Object[]> findSpecificMemberInfo(String email);
+    @Query("SELECT new com.example.backend.models.MemberInfo(m.id, m.name, m.surname, m.email) " +
+           "FROM Member m WHERE m.email = :email")
+    MemberInfo findSpecificMemberInfo(String email);
 
     @Modifying
     @Query(value = "UPDATE member m SET m.email = :new_email " +

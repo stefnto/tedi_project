@@ -94,12 +94,16 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
     @Override
     public MemberInfo getSpecifiedMemberInfo(String email) {
-        List<Object[]> fake_list = memberRep.findSpecificMemberInfo(email);
-        if (fake_list.isEmpty()) {
+        try {
+
+            MemberInfo memberInfo = memberRep.findSpecificMemberInfo(email);
+
+            return memberInfo;
+
+        } catch (Exception e) {
+
+            log.error("Error retrieving member info with email {}: {}", email, e);
             return null;
-        } else {
-            Object[] obj = fake_list.get(0);
-            return new MemberInfo(Long.parseLong(obj[0].toString()), obj[1].toString(), obj[2].toString(), obj[3].toString(), null);
         }
     }
 
