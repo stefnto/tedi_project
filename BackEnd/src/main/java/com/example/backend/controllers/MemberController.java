@@ -12,7 +12,6 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,7 +44,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 class MemberController {
     private final MemberServiceImpl memberService;
@@ -222,7 +220,7 @@ class MemberController {
             // gives a 201 status message
             memberService.saveMember(member); // add member
             memberService.addRole(member.getEmail(),"ROLE_MEMBER");
-            memberService.addResume(member.getEmail(), new Resume(null, null, null, null));
+            memberService.addResume(member.getEmail(), new Resume(null, "", null, true));
             memberService.addSkills(member.getEmail(), new Skills(null, "", null, true));
             memberService.addEducation(member.getEmail(), new Education(null, "", null, true));
             memberService.addExperience(member.getEmail(), new Experience(null, "", null, true));

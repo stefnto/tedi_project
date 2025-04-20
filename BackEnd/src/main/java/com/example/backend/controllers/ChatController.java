@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https:localhost:4200")
 @RequestMapping("/api/chatroom")
 public class ChatController {
     private final ChatroomServiceImpl chatroomService;
