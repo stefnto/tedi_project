@@ -1,5 +1,27 @@
 {
   "java.compile.nullAnalysis.mode": "automatic",
   "java.dependency.packagePresentation": "hierarchical",
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "todo-tree.highlights.customHighlight": {
+    "TODO": {
+      "foreground": "#FFD700",
+      "icon": "checklist",
+      "rulerColour": "#FFD700",
+      "rulerLane": "full"
+    },
+    "FIXME": {
+      "foreground": "#FF4500",
+      "icon": "alert",
+      "rulerColour": "#FF4500",
+      "rulerLane": "full"
+    },
+    "HACK": {
+      "foreground": "#1E90FF",
+      "icon": "bug",
+      "rulerColour": "#1E90FF",
+      "rulerLane": "full",
+    }
+  },
+  "todo-tree.tree.showCountsInTree": true, // Show counts next to tags in the tree
+  "todo-tree.tree.labelFormat": "${tag}: ${after}" // Format for tree labels
 }
