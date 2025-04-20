@@ -31,7 +31,7 @@ public class SecurityConfig {
 
     /* Configures the security rules for HTTP requests on application start */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationConfiguration authenticationConfiguration) throws Exception {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager(authenticationConfiguration));
         authenticationFilter.setFilterProcessesUrl("/api/login");
 
@@ -57,13 +57,13 @@ public class SecurityConfig {
 
     /* Called whenever spring security needs to handle an authentication request */
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     /* Configures CORS (Cross-Origin Resource Sharing) to allow requests from any origin */
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOriginPattern(frontendAppUrl + ":*"); // Allow your frontend's origin
         config.addAllowedHeader("*");

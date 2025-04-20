@@ -31,11 +31,11 @@ public class ErgasiaApplication {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){ return new BCryptPasswordEncoder(); }
+    PasswordEncoder passwordEncoder(){ return new BCryptPasswordEncoder(); }
 
     @Bean
-    public CommandLineRunner run(MemberService memberService, FriendService friendService, ChatroomService chatService,
-                          NotificationService notificationService, PostService postService, AdService adService) {
+    CommandLineRunner run(MemberService memberService, FriendService friendService, ChatroomService chatService,
+                       NotificationService notificationService, PostService postService, AdService adService) {
         return args -> {
             // Check if the admin user already exists
             if (Objects.isNull(memberService.findMemberByEmail("admin@admin.com"))) {
