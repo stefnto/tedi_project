@@ -31,6 +31,7 @@ import com.example.backend.models.Education;
 import com.example.backend.models.Experience;
 import com.example.backend.models.Member;
 import com.example.backend.models.MemberInfo;
+import com.example.backend.models.MemberPersonalDataDTO;
 import com.example.backend.models.Resume;
 import com.example.backend.models.Role;
 import com.example.backend.models.Skills;
@@ -168,6 +169,12 @@ class MemberController {
         return ResponseEntity.status(201).body("Skills is private");
     }
 
+    @GetMapping("member/personal-data/{email}")
+    public ResponseEntity<MemberPersonalDataDTO> getPersonalDataByEmail(@PathVariable String email) {
+        MemberPersonalDataDTO memberPersonalData = memberService.getMemberPersonalData(email);
+        return ResponseEntity.ok().body(memberPersonalData);
+    }
+    
     @GetMapping("member/resume/{email}")
     public ResponseEntity<Resume> getResumeFromEmail(@PathVariable String email){
         Member member = memberService.findMemberByEmail(email);

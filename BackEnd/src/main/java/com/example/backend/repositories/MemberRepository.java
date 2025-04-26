@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.backend.models.Member;
 import com.example.backend.models.MemberInfo;
+import com.example.backend.models.MemberPersonalDataDTO;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -30,5 +31,19 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "WHERE m.email = :email",
             nativeQuery = true)
     void updatePassword(String email, String new_password);
+
+    @Query(
+        " SELECT new com.example.backend.models.MemberPersonalDataDTO(" +
+        " 	new com.example.backend.models.ExperienceDTO(e.isPublic, CASE WHEN e.isPublic = true THEN e.text ELSE null END), " +
+        " 	new com.example.backend.models.EducationDTO(ed.isPublic, CASE WHEN ed.isPublic = true THEN ed.text ELSE null END), " +
+        " 	new com.example.backend.models.ResumeDTO(r.isPublic, CASE WHEN r.isPublic = true THEN r.text ELSE null END), " +
+        " 	new com.example.backend.models.SkillsDTO(s.isPublic, CASE WHEN s.isPublic = true THEN s.text ELSE null END)) " +
+        " FROM Member m " +
+        " JOIN m.experience e " +
+        " JOIN m.education ed " +
+        " JOIN m.resume r " +
+        " JOIN m.skills s " +
+        " WHERE m.email = :email")
+	MemberPersonalDataDTO getMemberPersonalData(String email);
 
 }

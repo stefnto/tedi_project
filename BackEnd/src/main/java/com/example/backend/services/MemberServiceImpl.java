@@ -19,6 +19,7 @@ import com.example.backend.models.Education;
 import com.example.backend.models.Experience;
 import com.example.backend.models.Member;
 import com.example.backend.models.MemberInfo;
+import com.example.backend.models.MemberPersonalDataDTO;
 import com.example.backend.models.Resume;
 import com.example.backend.models.Role;
 import com.example.backend.models.Skills;
@@ -122,6 +123,12 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         return members;
     }
 
+    @Override
+    public MemberPersonalDataDTO getMemberPersonalData(String email) {
+        MemberPersonalDataDTO memberPersonalData = memberRep.getMemberPersonalData(email);
+        return memberPersonalData;
+    }
+    
     @Override
     public Role saveRole(Role role) {
         log.info("Saving new role {} to the db", role.getName());

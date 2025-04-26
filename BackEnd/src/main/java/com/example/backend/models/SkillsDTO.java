@@ -5,7 +5,7 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class ExperienceDTO {
+public class SkillsDTO {
     Boolean isPublic;
     String text;
 }

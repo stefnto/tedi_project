@@ -13,7 +13,7 @@ public interface FriendService {
 
     /**
      * @return true or false depending if members are friends
-     * */
+     */
     Boolean friendshipRequestIsAccepted(String firstMemberEmail, String secondMemberEmail);
 
     /** 

@@ -1,5 +1,17 @@
-{"properties": [{
-  "name": "frontend.app.url",
-  "type": "java.lang.String",
-  "description": "URL the frontend application is running on."
-}]}
+{"properties": [
+  {
+    "name": "frontend.app.url",
+    "type": "java.lang.String",
+    "description": "URL the frontend application is running on"
+  },
+  {
+    "name": "backend.api.jwt.secret-key",
+    "type": "java.lang.String",
+    "description": "Secret used to sign JWT tokens"
+  },
+  {
+    "name": "backend.app.url",
+    "type": "java.lang.String",
+    "description": "URL the frontend application is running on'"
+  }
+]}

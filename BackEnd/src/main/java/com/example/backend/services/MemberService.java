@@ -6,6 +6,7 @@ import com.example.backend.models.Education;
 import com.example.backend.models.Experience;
 import com.example.backend.models.Member;
 import com.example.backend.models.MemberInfo;
+import com.example.backend.models.MemberPersonalDataDTO;
 import com.example.backend.models.Resume;
 import com.example.backend.models.Role;
 import com.example.backend.models.Skills;
@@ -28,16 +29,13 @@ public interface MemberService {
     // get list of members of the specified emails
     List<Member> getSpecifiedMembers(List<String> emails);
 
+    MemberPersonalDataDTO getMemberPersonalData(String email);
 
     // save role into DB
     Role saveRole(Role role);
 
     // add role to user
     void addRole(String email, String roleName);
-
-
-
-
 
     // save resume, experience, education, skills into DB
     Resume saveResume(Resume resume);
