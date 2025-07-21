@@ -53,7 +53,7 @@ public class SecurityConfig {
 			.addFilter(authenticationFilter)
 			.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers("/api/login", "/api/token/refresh", "/api/register").permitAll()
-				.requestMatchers("/api/members").hasAuthority("SCOPE_ROLE_ADMIN") // Spring Security adds "SCOPE_" prefix to Granted Authorities when running oauth2ResourceServer with defaults - Customizer.withDefaults()
+				.requestMatchers("/api/admin/**").hasAuthority("SCOPE_ROLE_ADMIN") // Spring Security adds "SCOPE_" prefix to Granted Authorities when running oauth2ResourceServer with defaults - Customizer.withDefaults()
 				.requestMatchers("/api/members/get/**", "/api/members/resume/**", "/api/friends/**", "/api/post/**", "/api/chatroom/**").hasAnyAuthority("SCOPE_ROLE_MEMBER", "SCOPE_ROLE_ADMIN")
 				.anyRequest().authenticated()
 			 )

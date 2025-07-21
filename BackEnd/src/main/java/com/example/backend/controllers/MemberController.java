@@ -1,6 +1,5 @@
 package com.example.backend.controllers;
 
-import java.util.List;
 import java.util.Objects;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,19 +27,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 class MemberController {
     private final MemberServiceImpl memberService;
-    
-    // Show all members only accessible by admin
-    @GetMapping("/members")
-    public ResponseEntity<List<MemberInfo>> getMembers() {
-        // ok() gives a 200 status message
-        return ResponseEntity.ok().body(memberService.getMembers());
-    }
-
-    // Get list of members of emails that were specified as a list
-    @GetMapping("/members/get/list")
-    public ResponseEntity<List<Member>> getSpecMembers(@RequestHeader List<String> emails){
-        return ResponseEntity.ok().body(memberService.getSpecifiedMembers(emails));
-    }
 
     // checkEmailExists returns True if email exists else returns false
     @GetMapping("/members/get-email/{email}")

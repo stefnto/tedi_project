@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-ErgasiaApplication<ergasia>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.example.backend.ErgasiaApplication",
+      "projectName": "ergasia",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

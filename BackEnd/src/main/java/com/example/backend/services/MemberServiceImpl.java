@@ -114,10 +114,12 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         emails.forEach(email ->
                 {
                     Member member = memberRep.findByEmail(email);
-                    members.add( new Member(member.getId(), member.getEmail(), member.getName(),
-                            member.getSurname(), member.getPassword(), member.getPhone(),
-                            member.getPosts(),member.getAds(),member.getRoles(),
-                            member.getResume(), member.getEducation(), member.getSkills(), member.getExperience()));
+                    // log.info(member.getAds().toString());
+                    members.add(member);
+                    // members.add( new Member(member.getId(), member.getEmail(), member.getName(),
+                    //         member.getSurname(), member.getPassword(), member.getPhone(),
+                    //         member.getPosts(),member.getAds(),member.getRoles(),
+                    //         member.getResume(), member.getEducation(), member.getSkills(), member.getExperience()));
                 }
         );
         return members;
