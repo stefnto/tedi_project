@@ -70,8 +70,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     JwsHeader jwsHeader = JwsHeader.with(MacAlgorithm.HS256).build();
 
     // Encode the tokens using the JWT encoder and add them to the tokenPair map
-    tokenPair.put("access_token", jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, accessTokenClaims)).getTokenValue());
-    tokenPair.put("refresh_token", jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, refreshTokenClaims)).getTokenValue());
+    tokenPair.put("accessToken", jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, accessTokenClaims)).getTokenValue());
+    tokenPair.put("refreshTtoken", jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, refreshTokenClaims)).getTokenValue());
 
     return tokenPair;
   }
